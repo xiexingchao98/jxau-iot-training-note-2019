@@ -1,0 +1,36 @@
+:toc:
+
+== NPM更换下载源
+
+`npm install` 时巨慢无比，这时可以把下载源换成淘宝的。
+
+....
+npm config set registry https://registry.npm.taobao.org
+....
+
+淘宝NPM源官网 -  https://npm.taobao.org
+
+== MySQL安装
+
+Windows下zip格式的安装
+
+....
+// 1. 打开powershell（管理员模式）
+使用快捷键 WIN + X => A
+// 2. 进入mysql目录
+cd 'mysql_dir/bin'
+// 3. 执行初始化操作
+./mysqld --initialize
+// 4. 查看初始化生成的默认密码
+在搜索栏中输入 *.err，密码就在这个文件中（一般是最后一行，比如：'A temporary password......'）
+// 5. 启动mysql
+./mysqld --console
+// 6. 添加环境变量（方便使用mysql相关命令）
+在path变量中新增'/mysql_dir/bin'
+// 7. 登陆
+mysql -uroot -p
+// 8. 更改密码
+alter user 'root'@localhost identified by 'new password'
+....
+
+官方文档 - https://dev.mysql.com/doc/refman/5.7/en/windows-install-archive.html
