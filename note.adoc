@@ -1,36 +1,116 @@
 :toc:
+== Git
 
-== NPM更换下载源
+== Node.js
+
+=== 更换npm下载源
 
 `npm install` 时巨慢无比，这时可以把下载源换成淘宝的。
 
-....
+[source,bash]
+----
 npm config set registry https://registry.npm.taobao.org
-....
+----
 
 淘宝NPM源官网 -  https://npm.taobao.org
 
-== MySQL安装
+=== Think.js框架
 
-Windows下zip格式的安装
+*热更新*
 
-....
-// 1. 打开powershell（管理员模式）
-使用快捷键 WIN + X => A
-// 2. 进入mysql目录
-cd 'mysql_dir/bin'
-// 3. 执行初始化操作
-./mysqld --initialize
-// 4. 查看初始化生成的默认密码
-在搜索栏中输入 *.err，密码就在这个文件中（一般是最后一行，比如：'A temporary password......'）
-// 5. 启动mysql
-./mysqld --console
-// 6. 添加环境变量（方便使用mysql相关命令）
-在path变量中新增'/mysql_dir/bin'
-// 7. 登陆
-mysql -uroot -p
-// 8. 更改密码
-alter user 'root'@localhost identified by 'new password'
-....
+`Think.js` 框架支持热更新操作，保存文件后会自动重新部署，即刻生效，你可以在终端输出中看到相关信息。
+
+而在 `java` 中，针对 `controller` 也就是 `servlet` 的修改操作，需要 `Redelploy` 或者 `Restart` 来使得更改生效，整个过程耗时要长一些。
+
+*数据库安全*
+
+为了防止数据库密码暴露在公开场合，可以将密码设置为环境变量，然后在 `adapter.js` 中使用 `process.env['variable_name']` 调用系统环境变量。
+
+*踩坑*
+
+* 返回数据库数据时，切记使用 `await` 将异步数据库操作改成同步操作，否则无法获取预期的返回值。
+
+[source, js]
+----
+findAction() {
+  let user = this.model().where({ id: id }).find()
+  this.json(user)
+}
+// response => {}
+
+async findAction() {
+  let user = await this.model().where({ id: id }).find()
+  this.json(user)
+}
+// response => { user: { ... } }
+----
+
+* 更新 `json` 字段的值时，应当传入字符串形式的值。
+
+[source, js]
+----
+// wrong
+model.where( { id： 1 } ).update('{ key: value }')
+
+// true
+model.where( { id： 1 } ).update({ key: value })
+----
+
+== 数据库
+
+=== MySQL安装
+
+以Windows下zip格式的文件（版本5.7）安装为例：
+
+1. 打开powershell（管理员模式）
+
+  使用快捷键 WIN + X => A
+
+2. 进入mysql目录
+  
+  cd 'mysql_dir/bin'
+
+3. 执行初始化操作
+
+  ./mysqld --initialize
+
+4. 查看初始化生成的默认密码
+
+  在搜索栏中输入 *.err，密码就在这个文件中（一般是最后一行，比如：'A temporary password......'）
+
+5. 启动mysql
+
+  ./mysqld --console
+
+6. 添加环境变量（方便使用mysql相关命令）
+
+  在path变量中新增'/mysql_dir/bin'
+
+7. 登陆
+
+  mysql -uroot -p
+
+8. 更改密码
+
+  alter user 'root'@localhost identified by 'new password'
 
 官方文档 - https://dev.mysql.com/doc/refman/5.7/en/windows-install-archive.html
+
+== Web开发
+
+=== JavaScript
+
+当键值的名称一致时，可采用简写形式。
+
+[source, js]
+----
+let userID = 1
+let data1 = { userID: userID }    // { userID: 1 }
+let data2 = { userID }    // 简写形式，效果与上面相同
+----
+
+=== HTTP请求调试工具
+
+客户端软件：Postman
+
+浏览器插件：RESTED（支持Chrome，Firefox）
