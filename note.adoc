@@ -114,5 +114,67 @@ let data2 = { userID }    // 简写形式，效果与上面相同
 客户端软件：Postman
 
 浏览器插件：RESTED（支持Chrome，Firefox）
-陈鑫测试数据
-打算打法就立刻
+
+陈鑫7月16日笔记
+vscode中如何把代码上传到github中
+（为什么要传到github中呢，因为，你用过就会知道有多么美妙了！）
+第一步：
+先在github中创建一个和自己项目名一样的仓库名字
+比如：我自己创建的就是一个文件 demo
+第二步：
+在自己本地的项目 demo 文件夹中打开 git bush  here
+然后重要的操作来了：
+1.git init 这个很重要，初始化一个仓库或者新建一个仓库
+$ git init
+2.初始化一个仓库 这个在新建的github项目中都有，在最下面
+$ git remote add origin https://github.com/WhiteLie1/demo.git
+(注意这个网址一样的东西，在你新创建的那个仓库界面最下面里面都有)
+3.add -A 添加所有文件
+$ git add -A
+4.上传说明这是一个初始化操作
+$ git commit -m "init"
+5.上传到一个原始仓库的主分支上面
+$ git push -u origin master
+
+当远程数据仓库和本体的关联以后就可以进行日常的操作了
+首先呢，一定是在你项目当前的目录下打开git bush here 要做的是：
+Git add . 添加所有文件
+查看状态
+Git status
+提交说明：
+Git commit -m "此次提交说明文档"
+推送到远程仓库
+Git push
+
+文件的传输
+const fs = require('fs');
+const path = require('path');
+const rename = think.promisify(fs.rename, fs); // 通过 promisify 方法把 rename 方法包装成 Promise 接口
+module.exports = class extends think.Controller {
+async uploadAction(){
+const file = this.file('image');
+// 如果上传的是 png 格式的图片文件，则移动到其他目录
+if(file ) {//===三个等号是等于 不等于则是 ！==
+const filepath = path.join(think.ROOT_PATH, 'runtime/upload/a.png');
+think.mkdir(path.dirname(filepath));
+await rename(file.path, filepath)
+}
+}
+}
+
+怎么实现 在upload中实现download逻辑 下载好这个东西
+
+
+
+
+
+更改路径
+
+
+
+
+
+
+
+
+
