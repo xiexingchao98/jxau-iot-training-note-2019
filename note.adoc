@@ -1,5 +1,43 @@
 :toc:
+
 == Git
+
+=== 上传本地代码至Github
+
+为什么要传到 Github 中呢，因为，你用过就会知道有多么美妙了！（By: 陈鑫）
+
+1. 在 Github 中创建一个和自己项目名字一样的仓库
+  eg: 我自己创建的就是一个文件夹 demo
+2. 打开 Git bash
+  在自己本地的项目 demo 文件夹中，在空白处，使用鼠标右键选择 `Git bash here`
+3. 初始化 Git 仓库
+  git init 
+4. 添加远程仓库地址
+  git remote add origin https://github.com/WhiteLie1/demo.git    // 请使用你自己的仓库地址
+5. 添加文件至暂存区
+  git add -A    // 添加所有文件
+6. 提交暂存区的修改（提交至本地）
+  git commit -m "Init repo"
+7. 将代码推送到远程仓库的 master （主）分支
+  git push -u origin master
+
+当远程数据仓库和本体的关联以后就可以进行日常的操作了。
+
+首先呢，一定是在你项目当前的目录下打开 `Git bash here` ,然后你需要做的是：
+
+[source, bash]
+----
+// 添加所有修改过或新增的文件
+git add . 
+
+// 查看文件状态
+git status
+
+// 提交并说明修改情况
+git commit -m "修改了某文件"
+
+/ 推送到远程仓库
+git push
 
 == Node.js
 
@@ -56,9 +94,61 @@ model.where( { id： 1 } ).update('{ key: value }')
 model.where( { id： 1 } ).update({ key: value })
 ----
 
+简单下载功能
+
+[source, js]
+----
+const chars = '0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()_+-=<>/?[]{}'
+const reverseChars = Array.from(chars).reverse().toString()
+
+module.exports = class extends think.Controller {
+  // 上传文件成功后，返回仅供外部查看的虚拟文件名
+  async uploadAction () {
+    let file = this.file('file')
+    let filepath = think.ROOT_PATH + '/www/static/upload/' + file.name
+    think.mkdir(path.dirname(filepath))
+    await rename(file.path, filepath)
+    this.body = encrypt(file.name)    // 返回加密的文件名
+  }
+  async downloadAction () {
+    // 获取真实文件名后，再跳转下载
+    let filename = decrypt(this.ctx.param('f'))
+    this.ctx.download(think.ROOT_PATH + '/www/static/upload/' + filename)
+  }
+}
+
+function encrypt (filename)  {
+  return convert(filename, chars, reverseChars)
+}
+
+function decrypt (filename) {
+  return convert(filename, reverseChars, chars)
+}
+
+/*
+ * 简单的字符串转换
+ * 将输入串中的每一个 char 从 currentChars 转换成 targetChars 中对应的 char
+ */
+function convert(str, currentChars, targetChars) {
+  let len = str.length
+  let ret = ''
+  for (let i = 0; i < len; ++i) {
+    let ch = str.charAt(i)
+    let index = currentChars.indexOf(ch)
+    if (index != -1) {
+      ch = targetChars.charAt(index)
+    }
+    ret += ch
+  }
+  return ret
+}
+----
+
 == 数据库
 
-=== MySQL安装
+=== MySQL
+
+==== 安装
 
 以Windows下zip格式的文件（版本5.7）安装为例：
 
@@ -94,9 +184,79 @@ model.where( { id： 1 } ).update({ key: value })
 
   alter user 'root'@localhost identified by 'new password'
 
+9. 中文乱码
+  
+  * sqlyog 中取消勾选表属性中隐藏语言选项（最右）
+  
+      选择字符集为utf8,核对为utf8_general_ci
+
+  * 查看数据库编码
+
+      show variables like "%char%"
+
+  * 设置character_set_client,character_set_connection,character_set_results的方法
+     
+      set names utf8
+
+  * 设置character_set_database,character_set_server为utf8的方法
+
+      找到数据库安装目录下my.ini文件
+
+      [mysqld]下增加character-set-server=utf8
+
+      [client]下增default-character-set=utf8
+
+      [mysql]下增default-character-set=utf8
+
+  * 重启服务
+      
+      net stop mysql
+
+      net start mysql
+
+
 官方文档 - https://dev.mysql.com/doc/refman/5.7/en/windows-install-archive.html
 
+==== 命令快速参考
+创建表
+
+----
+// 一般形式
+CREATE TABLE table_name (id int primary key auto_increment ... )
+
+// 含外键
+CREATE TABLE order (
+  id int primary key auto_increment,
+  user_id int,
+  vendor_id int
+  foreign key (user_id) references user(id),
+  foreign key (vendor_id) references vendor(id)
+)
+----
+
+更新字段
+
+  UPDATE user SET name = 'Jack' WHERE id = 1;
+
+删除记录
+
+  DELETE FROM user where id = 1;
+
+删除表
+
+  DROP TABLE user;
+
+更改字段定义
+
+  ALTER TABLE user MODIFY nickname varchar(100) default 'newUser'; 
+
+
+
 == Web开发
+
+推荐网站：
+
+https://developer.mozilla.org/zh-CN[Mozillia Developer Network]
 
 === JavaScript
 
@@ -109,72 +269,33 @@ let data1 = { userID: userID }    // { userID: 1 }
 let data2 = { userID }    // 简写形式，效果与上面相同
 ----
 
+在反引号（`）中引用变量
+
+[source, js]
+----
+let str1 = 'world'
+let str2 = 'hello ' + `${str1}`    // result: 'hello world'
+----
+
+运算符
+
+`===` 表示等于
+`!==` 表示不等于
+
 === HTTP请求调试工具
 
 客户端软件：Postman
 
 浏览器插件：RESTED（支持Chrome，Firefox）
 
-陈鑫7月16日笔记
-vscode中如何把代码上传到github中
-（为什么要传到github中呢，因为，你用过就会知道有多么美妙了！）
-第一步：
-先在github中创建一个和自己项目名一样的仓库名字
-比如：我自己创建的就是一个文件 demo
-第二步：
-在自己本地的项目 demo 文件夹中打开 git bush  here
-然后重要的操作来了：
-1.git init 这个很重要，初始化一个仓库或者新建一个仓库
-$ git init
-2.初始化一个仓库 这个在新建的github项目中都有，在最下面
-$ git remote add origin https://github.com/WhiteLie1/demo.git
-(注意这个网址一样的东西，在你新创建的那个仓库界面最下面里面都有)
-3.add -A 添加所有文件
-$ git add -A
-4.上传说明这是一个初始化操作
-$ git commit -m "init"
-5.上传到一个原始仓库的主分支上面
-$ git push -u origin master
+== 美化
 
-当远程数据仓库和本体的关联以后就可以进行日常的操作了
-首先呢，一定是在你项目当前的目录下打开git bush here 要做的是：
-Git add . 添加所有文件
-查看状态
-Git status
-提交说明：
-Git commit -m "此次提交说明文档"
-推送到远程仓库
-Git push
+Windows 下 CMD 和 PowerShell 推荐使用 http://www.downcc.com/font/17200.html[Microsoft Yahei Mono] 字体。
 
-文件的传输
-const fs = require('fs');
-const path = require('path');
-const rename = think.promisify(fs.rename, fs); // 通过 promisify 方法把 rename 方法包装成 Promise 接口
-module.exports = class extends think.Controller {
-async uploadAction(){
-const file = this.file('image');
-// 如果上传的是 png 格式的图片文件，则移动到其他目录
-if(file ) {//===三个等号是等于 不等于则是 ！==
-const filepath = path.join(think.ROOT_PATH, 'runtime/upload/a.png');
-think.mkdir(path.dirname(filepath));
-await rename(file.path, filepath)
-}
-}
-}
+Git bash 可以使用 https://github.com/tonsky/FiraCode/releases[Fira Code] 字体。
 
-怎么实现 在upload中实现download逻辑 下载好这个东西
+VS Code 下推荐 Material Theme，Atom One Dark 之类的主题。
 
+== 提升自我修养
 
-
-
-
-更改路径
-
-
-
-
-
-
-
-
-
+https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md[《提问的智慧》]
