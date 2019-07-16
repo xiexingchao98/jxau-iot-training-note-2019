@@ -94,6 +94,37 @@ model.where( { id： 1 } ).update({ key: value })
 
   alter user 'root'@localhost identified by 'new password'
 
+9. 中文乱码
+  
+  * sqlyog 中取消勾选表属性中隐藏语言选项（最右）
+  
+      选择字符集为utf8,核对为utf8_general_ci
+
+  * 查看数据库编码
+
+      show variables like "%char%"
+
+  * 设置character_set_client,character_set_connection,character_set_results的方法
+     
+      set names utf8
+
+  * 设置character_set_database,character_set_server为utf8的方法
+
+      找到数据库安装目录下my.ini文件
+
+      [mysqld]下增加character-set-server=utf8
+
+      [client]下增default-character-set=utf8
+
+      [mysql]下增default-character-set=utf8
+
+  * 重启服务
+      
+      net stop mysql
+
+      net start mysql
+
+
 官方文档 - https://dev.mysql.com/doc/refman/5.7/en/windows-install-archive.html
 
 == Web开发
