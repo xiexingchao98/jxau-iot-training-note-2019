@@ -1,3 +1,4 @@
+:imagesdir: ./images
 = 实训笔记
 
 == 简介
@@ -24,3 +25,27 @@
 
 如果你感兴趣的话可以阅读官方文档 - https://asciidoctor.org/docs
 ====
+
+== 编写规则
+
+图片统一放至在 `images` 文件夹内。
+
+使用图片时，使用 `image::filename[description]` 进行引用。
+
+当图片无法加载时，会显示方括号内的图片描述。
+
+[NOTE]
+====
+最好不要使用体积过大的图片，通常为以 `KB` 为单位最好。
+====
+
+示例：
+
+[source, asciidoc]
+----
+image::jxau-logo.jpg[jxau-logo]
+----
+
+效果：
+
+image:jxau-logo.jpg[jxau-logo]
