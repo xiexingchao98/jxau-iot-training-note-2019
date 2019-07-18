@@ -9,13 +9,19 @@
 
 环境：Ubuntu
 
+更换源为阿里云镜像
+
+https://opsx.alibaba.com/mirror
+
+在 Ubuntu 栏目的帮助中，找到对应版本的修改提示。
+
 1. 进入用户 home 目录（可选）
 
   cd ~
 
 2. 下载 `nginx` 安装包，以 `1.16.0` 版本为例：
   
-  wget https://github.com/nginx/nginx/archive/release-1.16.0.tar.gz
+  wget http://nginx.org/download/nginx-1.16.0.tar.gz
 
 3. 下载 `nginx-rtmp-module` 模块，以 `1.2.1` 为例：
   
@@ -28,17 +34,17 @@
 
 5. 安装依赖
 
-  sudo apt install libpcre3 libpcre3-dev
-  sudo apt install openssl libssl-dev
+  // 如果安装过程中出错，仍旧提示缺少依赖，根据提示安装相关依赖即可
+  sudo apt install gcc make zlib1g-dev libpcre3 libpcre3-dev openssl libssl-dev
 
 6. 编译并安装文件
 
   // 请将 module 的路径改为你本地的实际路径
-  ./configure --add-module=~/nginx-rtmp-module && make && make install
+  sudo ./configure --add-module=~/nginx-rtmp-module && sudo make && sudo make install
 
 7. 创建 `live_rtmp.conf` 配置文件
 
-  touch /usr/local/nginx/conf/live_rtmp.conf
+  sudo touch /usr/local/nginx/conf/live_rtmp.conf
 
 8. 编辑配置文件，内容请参阅 link:./example/live_rtmp.conf[live_rtmp.conf]
 
@@ -50,9 +56,9 @@
 
   /usr/local/nginx/sbin/nginx -t  -c /usr/local/nginx/conf/live_rtmp.conf
 
-11. 启动 `nginx`
+11. 首次启动 `nginx`
 
-  /usr/lcoal/nginx/sbin/nginx
+  sudo /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/live_rtmp.conf
 
 12. 打开浏览器，输入 `localhost:8080/stat` ，查看有无结果
 
