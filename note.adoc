@@ -1,4 +1,81 @@
 :toc:
+:imagesdir: ./images
+
+== Nginx
+
+=== 搭建直播服务
+
+==== 服务端环境搭建
+
+环境：Ubuntu
+
+1. 进入用户 home 目录（可选）
+
+  cd ~
+
+2. 下载 `nginx` 安装包，以 `1.16.0` 版本为例：
+  
+  wget https://github.com/nginx/nginx/archive/release-1.16.0.tar.gz
+
+3. 下载 `nginx-rtmp-module` 模块，以 `1.2.1` 为例：
+  
+  wget https://github.com/arut/nginx-rtmp-module/archive/v1.2.1.tar.gz
+
+4. 解压文件
+
+  tar xvf nginx-release-1.16.0.tar.gz
+  tar xvf v1.2.1.tar.gz
+
+5. 安装依赖
+
+  sudo apt install libpcre3 libpcre3-dev
+  sudo apt install openssl libssl-dev
+
+6. 编译并安装文件
+
+  // 请将 module 的路径改为你本地的实际路径
+  ./configure --add-module=~/nginx-rtmp-module && make && make install
+
+7. 创建 `live_rtmp.conf` 配置文件
+
+  touch /usr/local/nginx/conf/live_rtmp.conf
+
+8. 编辑配置文件，内容请参阅 link:./example/live_rtmp.conf[live_rtmp.conf]
+
+9. 复制 `stat.xsl` 文件至指定目录，与配置文件中 `location /stat.xsl` 中 `root` 路径一致
+
+  cp ~/nginx-rtmp-module/stat.xsl /usr/local/nginx/html/
+
+10. 验证配置文件正确性
+
+  /usr/local/nginx/sbin/nginx -t  -c /usr/local/nginx/conf/live_rtmp.conf
+
+11. 启动 `nginx`
+
+  /usr/lcoal/nginx/sbin/nginx
+
+12. 打开浏览器，输入 `localhost:8080/stat` ，查看有无结果
+
+==== 客户端OBS推流
+
+image::obs-add-origin.png[obs-add-origin.png]
+
+image::obs-add-origin-type-image.png[obs-add-origin.png]
+
+image::obs-setting-stream.png[obs-add-origin.png]
+
+
+==== 客户端VLC拉流
+
+image::vlc-open-network-address.png[vlc-open-network-address.png]
+
+image::vlc-open-network-address-config.png[vlc-open-network-address-config.png]
+
+*参考*：
+
+https://yq.aliyun.com/articles/626492
+
+https://www.cnblogs.com/monjeo/p/8492357.html
 
 == Git
 
@@ -188,53 +265,7 @@ model.where( { id： 1 } ).update({ key: value })
 
 *简单下载功能*
 
-[source, js]
-----
-const chars = '0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()_+-=<>/?[]{}'
-const reverseChars = Array.from(chars).reverse().toString()
-
-module.exports = class extends think.Controller {
-  // 上传文件成功后，返回仅供外部查看的虚拟文件名
-  async uploadAction () {
-    let file = this.file('file')
-    let filepath = think.ROOT_PATH + '/www/static/upload/' + file.name
-    think.mkdir(path.dirname(filepath))
-    await rename(file.path, filepath)
-    this.body = encrypt(file.name)    // 返回加密的文件名
-  }
-  async downloadAction () {
-    // 获取真实文件名后，再跳转下载
-    let filename = decrypt(this.ctx.param('f'))
-    this.ctx.download(think.ROOT_PATH + '/www/static/upload/' + filename)
-  }
-}
-
-function encrypt (filename)  {
-  return convert(filename, chars, reverseChars)
-}
-
-function decrypt (filename) {
-  return convert(filename, reverseChars, chars)
-}
-
-/*
- * 简单的字符串转换
- * 将输入串中的每一个 char 从 currentChars 转换成 targetChars 中对应的 char
- */
-function convert(str, currentChars, targetChars) {
-  let len = str.length
-  let ret = ''
-  for (let i = 0; i < len; ++i) {
-    let ch = str.charAt(i)
-    let index = currentChars.indexOf(ch)
-    if (index != -1) {
-      ch = targetChars.charAt(index)
-    }
-    ret += ch
-  }
-  return ret
-}
-----
+参阅： link:./example/file.js[file.js]
 
 == 数据库
 
