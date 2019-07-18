@@ -9,7 +9,12 @@
 
 环境：Ubuntu
 
-更换源为阿里云镜像
+[NOTE]
+====
+建议使用 Chrome 浏览器访问，否则可能出现图片无法正常显示的问题。
+====
+
+首先，更换源为阿里云镜像
 
 https://opsx.alibaba.com/mirror
 
@@ -29,7 +34,7 @@ https://opsx.alibaba.com/mirror
 
 4. 解压文件
 
-  tar xvf nginx-release-1.16.0.tar.gz
+  tar xvf nginx-1.16.0.tar.gz
   tar xvf v1.2.1.tar.gz
 
 5. 安装依赖
