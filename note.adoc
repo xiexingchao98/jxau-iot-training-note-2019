@@ -1,5 +1,57 @@
 :toc:
 :imagesdir: ./images
+== Vmware中ubuntu系统vmwaretools工具的安装
+声明：此方法适合初学小白使用，高手请自动略过：
+
+出这个文档的意义：1.自己搞了好久没搞定，出现了很多问题，总是安装失败，百度了好久
+
+2.通过自己的实践和百度，找到了方法。给自己提个醒。
+
+3.帮助更多和我一样的小白解决问题！
+
+=== 第一步：点击你们的虚拟机名字，右击的，点击安装vmware tools
+image:vmware tools-setting.png[vmware tools-setting.png]
+
+=== 第二步：复制vmwaretool安装包到home目录
+
+在此页面的下方会有一个安装vmware tools的提示，点击进入，在ubuntu系统桌面上面创建一个光盘的图标，表明将这个安装文件已经放进来了
+image:vmware tools-tar.png[vmware tools-tar.png]
+双击点进去这个光盘，里面有一个这个文件 [点击并拖拽以移动] ，为了好操作，你直接把这个文件复制或者剪切到主目录下面，也就是Home目录，如下图所示：
+image:vmware tools-home.png[vmware tools-home.png]
+
+=== 第三步：在当前这个目录下打开终端
+
+执行解压目录，解压vmwaretool压缩包
+
+注意一下，如果你不是root用户登录的，在此命令之前加 sudo,防止出错，这里统一加上去
+
+sudo tar vzxf VMwareTools-10.1.6-5214329.tar.gz
+
+注意：这里的vmwaretools版本根据自己的型号来定，可以不需要手动打字
+
+直接找到这个文件 [点击并拖拽以移动] 鼠标右击，点击属性，里面有名字，直接复制这个文件名就可以了
+
+然后，你就会看到一大堆代码
+
+=== 第四步：切换到 vmware-tools-distrib目录
+
+（这里有两种方法：
+
+1.在刚刚执行解压命令的终端 输入 cd vmware-tools-distrib/
+
+2.找到你刚刚解压的文件夹，就是在你复制的那个主目录下 ，会有一个解压包 [点击并拖拽以移动]
+image:vmware tools-distrib.png[vmware tools-distrib.png]
+右击，打开终端，就到了这个文件目录下面了）
+
+=== 最后：输入命令：sudo ./vmware-install.pl 安装
+
+sudo ./vmware-install.pl
+
+然后，你需要枯燥了按下yes和回车按钮，一直按，知道最后，会出现一个命令，you can enjoy it!
+
+恭喜你，安装成功了。
+
+重启虚拟机，点击全屏，如果能显示全屏，则安装成功了，也可以从Windows复制文件去linux上了！
 
 == Nginx
 
