@@ -351,6 +351,64 @@ model.where( { id： 1 } ).update({ key: value })
 
 参阅： link:./example/file.js[file.js]
 
+== 微信小程序
+
+=== 使用Thinkjs和MySQL与小程序通信
+
+[NOTE]
+====
+这里代码主要以截图为主，多动手,比什么都来的实际！
+====
+
+=== 建SQL表
+
+使用命令行或者Navicat工具建表。
+
+这里注意一下：我的数据库名字是 `day712`，建立了一个 `goods_item` 表。后面的测试都基于这个。表的字段属性和相关设置截图都有注释，请自行翻阅。
+
+image:table-describe.png[vmware tools-setting.png]
+
+=== Thinkjs测试代码
+
+首先在 `controller` 里面新建一个 `database.js`  测试文件。这里注意把 `database` 改成自己的数据库名字。然后密码改成自己的就行了。
+
+image:database-code.png[vmware tools-setting.png]
+
+=== 微信前端交互
+
+我这里是把商城页面的所有商品图片、售价和库存放入数据库。
+
+首先在自己想要测试的 `demo` 里面，往 `.js` 里面加入商品列表。
+
+如下图所示，我在 `data` 里面放了一个 `goodsList` 来接收数据。
+
+image:good-lists.png[good-lists.png]
+
+重点来了，这里设置 `url` 地址，来访问 `thinkjs` 后台的地址，实现数据交互功能。
+
+image:onload-code.png[onliad-code.png]
+
+[NOTE]
+====
+这个 `url` 地址并不是 `localhost:8360/mysqltest`。这个地址要是你电脑的动态 ip 地址才行，localhost 可能会无法访问。查询本机 `ip` 在 `cmd` 中输入 `ipconfig` 查询。如果编译出现不合法域名，请在开发工具设置里面勾选不校验合法域名。
+====
+
+这里使用一个 `view` 来测试一下能否接收从数据库传过来的东西。
+
+image:goods-use.png[goods-use.png]
+
+`npm start` 启动一下服务端，效果显示如下图：
+
+image:goods-show.png[goods-show.png]
+
+这里说明一下，`wx:for` 和 `{{}}` 的使用请自行查看微信小程序开发文档。
+
+这里的 `{{item.picture_url}}` 里面存放的是我的本地图片存储路径。我的图片存在 `image` 文件夹里面。正常路径是 `../../image/goo1.png` 我这里把这个路径存在了数据库中的 `picture_url` 中。直接调用就行，至于图片，不能直接存图片到数据库里面，要先转换成二进制，过于复杂，以后弄懂了再来搞。
+
+微信小程序商城Demo（Thinkjs + MySQL）
+
+https://juejin.im/entry/5af1b16d6fb9a07aca7a20d3
+
 == 数据库
 
 === MySQL
@@ -383,6 +441,10 @@ model.where( { id： 1 } ).update({ key: value })
 8. 更改密码
 
   alter user 'root'@localhost identified by 'new password'
+
+官方文档
+
+https://dev.mysql.com/doc/refman/5.7/en/windows-install-archive.html
 
 ==== 常见问题
 
@@ -442,10 +504,6 @@ net start mysql
 ----
 create table user (name varchar(20)) default charset=utf8;
 ----
-
-官方文档
-
-https://dev.mysql.com/doc/refman/5.7/en/windows-install-archive.html
 
 ==== 命令快速参考
 创建表
