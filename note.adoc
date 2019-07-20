@@ -1,56 +1,9 @@
 :toc:
 :imagesdir: ./images
 
-== 小程序+thinkjs+MySQL简单交互
-====
-这里代码主要以截图为主，多动手,比什么都来的实际！
-====
-
-=== 建SQL表
-
-1.使用命令行或者Navicat工具建表。
-这里注意一下：我的数据库名字是 `day712`，建立了一个 `goods_item` 表。后面的测试都基于这个。表的字段属性和相关设置截图都有注释，请自行翻阅。
-
-image:table-describe.png[vmware tools-setting.png]
-
-=== thinkjs测试代码
-
-2.首先在 `controller` 里面新建一个 `database.js`  测试文件。这里注意把 `database` 改成自己的数据库名字。然后密码改成自己的就行了。
-
-image:database-code.png[vmware tools-setting.png]
-
-
-=== 微信前端交互code
-
-3.我这里是要把商城页面的所有商品图片、售价和库存放入数据库，
-
-首先在自己想要测试的 `demo` 里面，往 `.js` 里面加入商品列表。如图所示：我在 data 里面放了一个 goodsList 来接收数据。
-
-image:good-lists.png[good-lists.png]
-
-4.重点来了，这里设置 `url` 地址，来访问 `thinkjs` 后台的地址，实现数据交互功能。
-
-image:onload-code.png[onliad-code.png]
-
-这里要注意：这个 `url` 地址并不是 `localhost:8360/mysqltest` 这个地址要是你电脑的动态 ip 地址才行，localhost 可能会无法访问。查询本机 `ip` 在 `cmd` 中输入 `ipconfig` 查询。如果编译出现不合法域名，请在开发工具设置里面勾选不校验合法域名。
-
-这里使用一个 `view` 来测试一下能否接收从数据库传过来的东西。
-
-image:goods-use.png[goods-use.png]
-
-`npm start` 启动一下服务端，效果显示如下图：
-
-image:goods-show.png[goods-show.png]
-
-这里说明一下，`wx:for` 和 {{}} 的使用请自行查看 `thinkjs` 和 微信小程序开发文档。
-
-这里的 `{{item.picture_url}}` 里面存放的是我的本地图片存储路径。我的图片存在 image 文件夹里面。正常路径是 `../../image/goo1.png` 我这里把这个路径存在了数据库中的 `picture_url` 中。直接调用就行，至于图片，不能直接存图片到数据库里面，要先转换成二进制，过于复杂，以后弄懂了再来搞。
-
-这里贴一个 thinkjs 和 mysql 和小程序实现的商城 demo 
-
-https://juejin.im/entry/5af1b16d6fb9a07aca7a20d3
-
 == Linux
+
+https://jaywcjlove.gitee.io/linux-command[命令手册]
 
 === Ubuntu安装VMwareTools
 
@@ -132,11 +85,6 @@ you can enjoy it!
 ==== 服务端环境搭建
 
 环境：Ubuntu
-
-[NOTE]
-====
-建议使用 Chrome 浏览器访问，否则可能出现图片无法正常显示的问题。
-====
 
 首先，更换源为阿里云镜像
 
@@ -232,7 +180,8 @@ https://www.cnblogs.com/monjeo/p/8492357.html
 
 4. 添加远程仓库地址
 
-  git remote add origin https://github.com/WhiteLie1/demo.git    // 请使用你自己的仓库地址
+  // 请使用你自己的仓库地址
+  git remote add origin https://github.com/WhiteLie1/demo.git    
 
 5. 添加文件至暂存区
 
@@ -402,19 +351,74 @@ model.where( { id： 1 } ).update({ key: value })
 
 参阅： link:./example/file.js[file.js]
 
+== 微信小程序
+
+=== 使用Thinkjs和MySQL与小程序通信
+
+[NOTE]
+====
+这里代码主要以截图为主，多动手,比什么都来的实际！
+====
+
+=== 建SQL表
+
+使用命令行或者Navicat工具建表。
+
+这里注意一下：我的数据库名字是 `day712`，建立了一个 `goods_item` 表。后面的测试都基于这个。表的字段属性和相关设置截图都有注释，请自行翻阅。
+
+image:table-describe.png[vmware tools-setting.png]
+
+=== Thinkjs测试代码
+
+首先在 `controller` 里面新建一个 `database.js`  测试文件。这里注意把 `database` 改成自己的数据库名字。然后密码改成自己的就行了。
+
+image:database-code.png[vmware tools-setting.png]
+
+=== 微信前端交互
+
+我这里是把商城页面的所有商品图片、售价和库存放入数据库。
+
+首先在自己想要测试的 `demo` 里面，往 `.js` 里面加入商品列表。
+
+如下图所示，我在 `data` 里面放了一个 `goodsList` 来接收数据。
+
+image:good-lists.png[good-lists.png]
+
+重点来了，这里设置 `url` 地址，来访问 `thinkjs` 后台的地址，实现数据交互功能。
+
+image:onload-code.png[onliad-code.png]
+
+[NOTE]
+====
+这个 `url` 地址并不是 `localhost:8360/mysqltest`。这个地址要是你电脑的动态 ip 地址才行，localhost 可能会无法访问。查询本机 `ip` 在 `cmd` 中输入 `ipconfig` 查询。如果编译出现不合法域名，请在开发工具设置里面勾选不校验合法域名。
+====
+
+这里使用一个 `view` 来测试一下能否接收从数据库传过来的东西。
+
+image:goods-use.png[goods-use.png]
+
+`npm start` 启动一下服务端，效果显示如下图：
+
+image:goods-show.png[goods-show.png]
+
+这里说明一下，`wx:for` 和 `{{}}` 的使用请自行查看微信小程序开发文档。
+
+这里的 `{{item.picture_url}}` 里面存放的是我的本地图片存储路径。我的图片存在 `image` 文件夹里面。正常路径是 `../../image/goo1.png` 我这里把这个路径存在了数据库中的 `picture_url` 中。直接调用就行，至于图片，不能直接存图片到数据库里面，要先转换成二进制，过于复杂，以后弄懂了再来搞。
+
+微信小程序商城Demo（Thinkjs + MySQL）
+
+https://juejin.im/entry/5af1b16d6fb9a07aca7a20d3
+
 == 数据库
 
 === MySQL
 
 ==== 安装
 
-以Windows下zip格式的文件（版本5.7）安装为例：
+以 Windows 下 zip 格式的文件（版本5.7）安装为例：
 
-1. 打开powershell（管理员模式）
-
-  使用快捷键 WIN + X => A
-
-2. 进入mysql目录
+1. 同时按下 WIN + X 键，打开 Powershell（管理员模式）
+2. 进入 mysql 目录
 
   cd 'mysql_dir/bin'
 
@@ -422,17 +426,13 @@ model.where( { id： 1 } ).update({ key: value })
 
   ./mysqld --initialize
 
-4. 查看初始化生成的默认密码
+4. 搜索 `*.err` 文件，打开后可在最后一行看到默认登陆密码，例如： `A temporarily password has generated for ...`
 
-  在搜索栏中输入 *.err，密码就在这个文件中（一般是最后一行，比如：'A temporary password......'）
-
-5. 启动mysql
+5. 启动 mysql
 
   ./mysqld --console
 
-6. 添加环境变量（方便使用mysql相关命令）
-
-  在path变量中新增'/mysql_dir/bin'
+6. 将 `mysql` 的 `bin` 目录添加到 `path` 环境变量（方便在命令行中使用 mysql）
 
 7. 登陆
 
@@ -442,37 +442,61 @@ model.where( { id： 1 } ).update({ key: value })
 
   alter user 'root'@localhost identified by 'new password'
 
-9. 中文乱码
+官方文档
 
-  * sqlyog 中取消勾选表属性中隐藏语言选项（最右）
+https://dev.mysql.com/doc/refman/5.7/en/windows-install-archive.html
 
-      选择字符集为utf8,核对为utf8_general_ci
+==== 常见问题
 
-  * 查看数据库编码
+*查看和设置数据库编码*
 
-      show variables like "%char%"
+[source, mysql]
+----
+# 查看编码
+show variables like "%char%"
 
-  * 设置character_set_client,character_set_connection,character_set_results的方法
+# 设置编码
+set character_set_xxx utf8
+----
 
-      set names utf8
+[NOTE]
+====
+此方法仅本次有效，下次启动或者登陆时，会加载默认配置
+====
 
-  * 设置character_set_database,character_set_server为utf8的方法
+* sqlyog 中取消勾选表属性中隐藏语言选项（最右）
 
-      找到数据库安装目录下my.ini文件
+  选择字符集为utf8,核对为utf8_general_ci
 
-      [mysqld]下增加character-set-server=utf8
+*在配置文件中设置编码*
 
-      [client]下增default-character-set=utf8
+在 `mysql` 目录中找到或者创建 `my.ini` 文件，并依据具体情况加入以下内容：
 
-      [mysql]下增default-character-set=utf8
+....
+[mysqld]
+character-set-server=utf8
 
-  * 重启服务
+[client]
+default-character-set=utf8
 
-      net stop mysql
+[mysql]
+default-character-set=utf8
+....
 
-      net start mysql
+*重启服务*
 
-==== 插入中文数据时报错
+....
+net stop mysql
+
+net start mysql
+....
+
+[NOTE]
+====
+此方法应该不适用于以 `zip` 格式安装的用户
+====
+
+*插入中文数据发生错误*
 
 创建表时指定 `utf8` 编码即可。
 
@@ -480,8 +504,6 @@ model.where( { id： 1 } ).update({ key: value })
 ----
 create table user (name varchar(20)) default charset=utf8;
 ----
-
-官方文档 - https://dev.mysql.com/doc/refman/5.7/en/windows-install-archive.html
 
 ==== 命令快速参考
 创建表
@@ -516,7 +538,9 @@ CREATE TABLE order (
 
   ALTER TABLE user MODIFY nickname varchar(100) default 'newUser';
 
+增加外键约束
 
+  ALTER TALBE order add foreign key vendor_id references vendor(vendor_id);
 
 == Web开发
 
@@ -563,5 +587,7 @@ Git bash 可以使用 https://github.com/tonsky/FiraCode/releases[Fira Code] 字
 VS Code 下推荐 Material Theme，Atom One Dark 之类的主题。
 
 == 提升自我修养
+
+https://github.com/tangx/Stop-Ask-Questions-The-Stupid-Ways[《别像弱智一样提问》]
 
 https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md[《提问的智慧》]
