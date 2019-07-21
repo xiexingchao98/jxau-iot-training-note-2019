@@ -1,0 +1,79 @@
+:imagesdir: ../images
+
+*服务端环境搭建*
+
+环境：Ubuntu
+
+首先，更换源为阿里云镜像
+
+https://opsx.alibaba.com/mirror
+
+在 Ubuntu 栏目的帮助中，找到对应版本的修改提示。
+
+1. 进入用户 home 目录（可选）
+
+  cd ~
+
+2. 下载 `nginx` 安装包，以 `1.16.0` 版本为例：
+  
+  wget http://nginx.org/download/nginx-1.16.0.tar.gz
+
+3. 下载 `nginx-rtmp-module` 模块，以 `1.2.1` 为例：
+  
+  wget https://github.com/arut/nginx-rtmp-module/archive/v1.2.1.tar.gz
+
+4. 解压文件
+
+  tar xvf nginx-1.16.0.tar.gz
+  tar xvf v1.2.1.tar.gz
+
+5. 安装依赖
+
+  // 如果安装过程中出错，仍旧提示缺少依赖，根据提示安装相关依赖即可
+  sudo apt install gcc make zlib1g-dev libpcre3 libpcre3-dev openssl libssl-dev
+
+6. 编译并安装文件
+
+  // 请将 module 的路径改为你本地的实际路径
+  sudo ./configure --add-module=~/nginx-rtmp-module && sudo make && sudo make install
+
+7. 创建 `live_rtmp.conf` 配置文件
+
+  sudo touch /usr/local/nginx/conf/live_rtmp.conf
+
+8. 编辑配置文件，内容请参阅 link:./example/live_rtmp.conf[live_rtmp.conf]
+
+9. 复制 `stat.xsl` 文件至指定目录，与配置文件中 `location /stat.xsl` 中 `root` 路径一致
+
+  cp ~/nginx-rtmp-module/stat.xsl /usr/local/nginx/html/
+
+10. 验证配置文件正确性
+
+  /usr/local/nginx/sbin/nginx -t  -c /usr/local/nginx/conf/live_rtmp.conf
+
+11. 首次启动 `nginx`
+
+  sudo /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/live_rtmp.conf
+
+12. 打开浏览器，输入 `localhost:8080/stat` ，查看有无结果
+
+*客户端OBS推流*
+
+image::obs-add-origin.png[obs-add-origin.png]
+
+image::obs-add-origin-type-image.png[obs-add-origin.png]
+
+image::obs-setting-stream.png[obs-add-origin.png]
+
+
+*客户端VLC拉流*
+
+image::vlc-open-network-address.png[vlc-open-network-address.png]
+
+image::vlc-open-network-address-config.png[vlc-open-network-address-config.png]
+
+*参考*：
+
+https://yq.aliyun.com/articles/626492
+
+https://www.cnblogs.com/monjeo/p/8492357.html

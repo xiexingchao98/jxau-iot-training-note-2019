@@ -1,5 +1,144 @@
 :toc:
+:imagesdir: ./images
+
+== Linux
+
+https://jaywcjlove.gitee.io/linux-command[命令手册]
+
+=== Ubuntu安装VMwareTools
+
+[TIP]
+====
+声明：此方法适合初学小白使用，高手请自动略过。
+====
+
+出这个文档的意义：
+
+1. 自己搞了好久没搞定，出现了很多问题，总是安装失败，百度了好久
+
+2. 通过自己的实践和百度，找到了方法。给自己提个醒。
+
+3. 帮助更多和我一样的小白解决问题！
+
+第一步：点击你们的虚拟机名字，右击的，点击安装 VMware Tools
+
+image:vmware tools-setting.png[vmware tools-setting.png]
+
+第二步：复制 VMware Tools 安装包到 home 目录
+
+在此页面的下方会有一个安装 VMware Tools 的提示，点击进入，在 Ubuntu 系统桌面上面创建一个光盘的图标，表明将这个安装文件已经放进来了
+
+image:vmware tools-tar.png[vmware tools-tar.png]
+
+双击点进去这个光盘，里面有一个这个文件 [点击并拖拽以移动] ，为了好操作，你直接把这个文件复制或者剪切到主目录下面，也就是 home 目录，如下图所示：
+
+image:vmware tools-home.png[vmware tools-home.png]
+
+第三步：在当前这个目录下打开终端
+
+执行解压目录，解压 VMware Tools 压缩包
+
+注意一下，如果你不是 root 用户登录的，在此命令之前加 `sudo` ,防止出错，这里统一加上
+
+....
+sudo tar vzxf VMwareTools-10.1.6-5214329.tar.gz
+....
+
+注意：这里 VMware Tools 版本根据自己的型号来定，可以不需要手动打字
+
+直接找到这个文件 [点击并拖拽以移动] 鼠标右击，点击属性，里面有名字，直接复制这个文件名就可以了
+
+然后，你就会看到一大堆代码
+
+第四步：切换到 vmware-tools-distrib 目录
+
+这里有两种方法：
+
+1. 在刚刚执行解压命令的终端 输入 cd vmware-tools-distrib/
+
+2. 找到你刚刚解压的文件夹，就是在你复制的那个主目录下 ，会有一个解压包 [点击并拖拽以移动]
+
+image:vmware tools-distrib.png[vmware tools-distrib.png]
+
+右击，打开终端，就到了这个文件目录下面了
+
+最后执行安装
+
+....
+sudo ./vmware-install.pl
+....
+
+然后，你需要枯燥了按下 yes 和回车按钮，一直按，知道最后，会出现一个命令：
+
+....
+you can enjoy it!
+....
+
+恭喜你，安装成功了。
+
+重启虚拟机，点击全屏，如果能显示全屏，则安装成功了，也可以从 Windows 复制文件去 Linux 上了！
+
+== Nginx
+
+link:./pages/build-live-service-with-nginx.adoc[搭建直播服务]
+
 == Git
+
+=== 上传本地代码至Github
+
+为什么要传到 Github 中呢，因为，你用过就会知道有多么美妙了！（By: 陈鑫）
+
+1. 在 Github 中创建一个和自己项目名字一样的仓库
+
+  eg: 我自己创建的就是一个文件夹 demo
+
+2. 打开 Git bash
+
+  在自己本地的项目 demo 文件夹中，在空白处，使用鼠标右键选择 `Git bash here`
+
+3. 初始化 Git 仓库
+
+  git init
+
+4. 添加远程仓库地址
+
+  // 请使用你自己的仓库地址
+  git remote add origin https://github.com/WhiteLie1/demo.git    
+
+5. 添加文件至暂存区
+
+  git add -A    // 添加所有文件
+
+6. 提交暂存区的修改（提交至本地）
+
+  git commit -m "Init repo"
+
+7. 将代码推送到远程仓库的 master （主）分支
+
+  git push -u origin master
+
+当远程数据仓库和本体的关联以后就可以进行日常的操作了。
+
+首先呢，一定是在你项目当前的目录下打开 `Git bash here` ,然后你需要做的是：
+
+[source, bash]
+----
+// 添加所有修改过或新增的文件
+git add .
+
+// 查看文件状态
+git status
+
+// 提交并说明修改情况
+git commit -m "修改了某文件"
+
+/ 推送到远程仓库
+git push
+----
+
+=== 常见问题
+
+link:./pages/can-not-push-local-repo-to-remote-repo.adoc[无法推送本地仓库到远程仓库（新创建并含有默认的README）]
 
 == Node.js
 
@@ -56,35 +195,92 @@ model.where( { id： 1 } ).update('{ key: value }')
 model.where( { id： 1 } ).update({ key: value })
 ----
 
+*简单下载功能*
+
+参阅： link:./example/file.js[file.js]
+
+== 微信小程序
+
+=== 使用Thinkjs和MySQL与小程序通信
+
+[NOTE]
+====
+这里代码主要以截图为主，多动手,比什么都来的实际！
+====
+
+==== 建SQL表
+
+使用命令行或者Navicat工具建表。
+
+这里注意一下：我的数据库名字是 `day712`，建立了一个 `goods_item` 表。后面的测试都基于这个。表的字段属性和相关设置截图都有注释，请自行翻阅。
+
+image:table-describe.png[vmware tools-setting.png]
+
+==== Thinkjs测试代码
+
+首先在 `controller` 里面新建一个 `database.js`  测试文件。这里注意把 `database` 改成自己的数据库名字。然后密码改成自己的就行了。
+
+image:database-code.png[vmware tools-setting.png]
+
+==== 微信前端交互
+
+我这里是把商城页面的所有商品图片、售价和库存放入数据库。
+
+首先在自己想要测试的 `demo` 里面，往 `.js` 里面加入商品列表。
+
+如下图所示，我在 `data` 里面放了一个 `goodsList` 来接收数据。
+
+image:good-lists.png[good-lists.png]
+
+重点来了，这里设置 `url` 地址，来访问 `thinkjs` 后台的地址，实现数据交互功能。
+
+image:onload-code.png[onliad-code.png]
+
+[NOTE]
+====
+这个 `url` 地址并不是 `localhost:8360/mysqltest`。这个地址要是你电脑的动态 ip 地址才行，localhost 可能会无法访问。查询本机 `ip` 在 `cmd` 中输入 `ipconfig` 查询。如果编译出现不合法域名，请在开发工具设置里面勾选不校验合法域名。
+====
+
+这里使用一个 `view` 来测试一下能否接收从数据库传过来的东西。
+
+image:goods-use.png[goods-use.png]
+
+`npm start` 启动一下服务端，效果显示如下图：
+
+image:goods-show.png[goods-show.png]
+
+这里说明一下，`wx:for` 和 `{{}}` 的使用请自行查看微信小程序开发文档。
+
+这里的 `{{item.picture_url}}` 里面存放的是我的本地图片存储路径。我的图片存在 `image` 文件夹里面。正常路径是 `../../image/goo1.png` 我这里把这个路径存在了数据库中的 `picture_url` 中。直接调用就行，至于图片，不能直接存图片到数据库里面，要先转换成二进制，过于复杂，以后弄懂了再来搞。
+
+微信小程序商城Demo（Thinkjs + MySQL）
+
+https://juejin.im/entry/5af1b16d6fb9a07aca7a20d3
+
 == 数据库
 
-=== MySQL安装
+=== MySQL
 
-以Windows下zip格式的文件（版本5.7）安装为例：
+==== 安装
 
-1. 打开powershell（管理员模式）
+以 Windows 下 zip 格式的文件（版本5.7）安装为例：
 
-  使用快捷键 WIN + X => A
+1. 同时按下 WIN + X 键，打开 Powershell（管理员模式）
+2. 进入 mysql 目录
 
-2. 进入mysql目录
-  
   cd 'mysql_dir/bin'
 
 3. 执行初始化操作
 
   ./mysqld --initialize
 
-4. 查看初始化生成的默认密码
+4. 搜索 `*.err` 文件，打开后可在最后一行看到默认登陆密码，例如： `A temporarily password has generated for ...`
 
-  在搜索栏中输入 *.err，密码就在这个文件中（一般是最后一行，比如：'A temporary password......'）
-
-5. 启动mysql
+5. 启动 mysql
 
   ./mysqld --console
 
-6. 添加环境变量（方便使用mysql相关命令）
-
-  在path变量中新增'/mysql_dir/bin'
+6. 将 `mysql` 的 `bin` 目录添加到 `path` 环境变量（方便在命令行中使用 mysql）
 
 7. 登陆
 
@@ -94,44 +290,115 @@ model.where( { id： 1 } ).update({ key: value })
 
   alter user 'root'@localhost identified by 'new password'
 
-9. 中文乱码
-  
-  * sqlyog 中取消勾选表属性中隐藏语言选项（最右）
-  
-      选择字符集为utf8,核对为utf8_general_ci
+官方文档
 
-  * 查看数据库编码
+https://dev.mysql.com/doc/refman/5.7/en/windows-install-archive.html
 
-      show variables like "%char%"
+==== 常见问题
 
-  * 设置character_set_client,character_set_connection,character_set_results的方法
-     
-      set names utf8
+*查看和设置数据库编码*
 
-  * 设置character_set_database,character_set_server为utf8的方法
+[source, mysql]
+----
+# 查看编码
+show variables like "%char%"
 
-      找到数据库安装目录下my.ini文件
+# 设置编码
+set character_set_xxx utf8
+----
 
-      [mysqld]下增加character-set-server=utf8
+[NOTE]
+====
+此方法仅本次有效，下次启动或者登陆时，会加载默认配置
+====
 
-      [client]下增default-character-set=utf8
+* sqlyog 中取消勾选表属性中隐藏语言选项（最右）
 
-      [mysql]下增default-character-set=utf8
+  选择字符集为utf8,核对为utf8_general_ci
 
-  * 重启服务
-      
-      net stop mysql
+*在配置文件中设置编码*
 
-      net start mysql
+在 `mysql` 目录中找到或者创建 `my.ini` 文件，并依据具体情况加入以下内容：
 
+....
+[mysqld]
+character-set-server=utf8
 
-官方文档 - https://dev.mysql.com/doc/refman/5.7/en/windows-install-archive.html
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8
+....
+
+*重启服务*
+
+....
+net stop mysql
+
+net start mysql
+....
+
+[NOTE]
+====
+此方法应该不适用于以 `zip` 格式安装的用户
+====
+
+*插入中文数据发生错误*
+
+创建表时指定 `utf8` 编码即可。
+
+[source, mysql]
+----
+create table user (name varchar(20)) default charset=utf8;
+----
+
+==== 命令快速参考
+创建表
+
+----
+// 一般形式
+CREATE TABLE table_name (id int primary key auto_increment ... )
+
+// 含外键
+CREATE TABLE order (
+  id int primary key auto_increment,
+  user_id int,
+  vendor_id int
+  foreign key (user_id) references user(id),
+  foreign key (vendor_id) references vendor(id)
+)
+----
+
+更新字段
+
+  UPDATE user SET name = 'Jack' WHERE id = 1;
+
+删除记录
+
+  DELETE FROM user where id = 1;
+
+删除表
+
+  DROP TABLE user;
+
+更改字段定义
+
+  ALTER TABLE user MODIFY nickname varchar(100) default 'newUser';
+
+增加外键约束
+
+  ALTER TALBE order add foreign key vendor_id references vendor(vendor_id);
 
 == Web开发
 
+推荐网站：
+
+https://developer.mozilla.org/zh-CN[Mozillia Developer Network]
+
 === JavaScript
 
-当键值的名称一致时，可采用简写形式。
+*当键值的名称一致时，可采用简写形式。*
 
 [source, js]
 ----
@@ -140,8 +407,67 @@ let data1 = { userID: userID }    // { userID: 1 }
 let data2 = { userID }    // 简写形式，效果与上面相同
 ----
 
+*可在反引号（`）中引用变量。*
+
+[source, js]
+----
+let str1 = 'world'
+let str2 = 'hello ' + `${str1}`    // result: 'hello world'
+----
+
+*严格运算符*
+
+`===` 表示等于
+
+`!==` 表示不等于
+
+[NOTE]
+====
+请谨慎使用 `===` ，以免造成你意想不到的结果。
+====
+
+示例：
+
+我希望从 `cookie` 中取出指定值，对用户进行一个验证。如果该 `cookie` 不存在，则该次访问不合法，否则允许访问。
+
+[source, js]
+----
+let vendor = this.cookie('vendor')
+if (vendor === null || vendor === '')
+  return this.fail('invalid access')
+return this.success('valid access')
+----
+
+现在 `cookie` 中不存在 `vendor`，那么代码变成如下效果：
+
+[source, js]
+----
+let vendor = undefined
+if (undefined === null || undefined === '')    // false
+  return this.fail('invalid access')
+return this.success('valid access')
+----
+
+因为 `undefined === null => false` ，所以不管该 `cookie` 是否存在，最终都会返回成功。
+
+顺带一提 `undefined == null => true` 。
+
 === HTTP请求调试工具
 
 客户端软件：Postman
 
 浏览器插件：RESTED（支持Chrome，Firefox）
+
+== 美化
+
+Windows 下 CMD 和 PowerShell 推荐使用 http://www.downcc.com/font/17200.html[Microsoft Yahei Mono] 字体。
+
+Git bash 可以使用 https://github.com/tonsky/FiraCode/releases[Fira Code] 字体。
+
+VS Code 下推荐 Material Theme，Atom One Dark 之类的主题。
+
+== 提升自我修养
+
+https://github.com/tangx/Stop-Ask-Questions-The-Stupid-Ways[《别像弱智一样提问》]
+
+https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md[《提问的智慧》]

@@ -1,7 +1,12 @@
+:imagesdir: ./images
 = 实训笔记
 
 == 简介
 这是江西农业大学 2019 年物联方向的实训笔记。
+
+如果你喜欢或者能够从中得到收获，请给我们一个 :star: ，以便让我们知道，我们的所做的这一切帮助到了你 :heart: 。
+
+如果你觉得有不足之处，欢迎在 `issue` 中留言，或者提交 `PR` 以帮助我们改进。
 
 == 初衷
 
@@ -24,3 +29,44 @@
 
 如果你感兴趣的话可以阅读官方文档 - https://asciidoctor.org/docs
 ====
+
+== 编写规则
+
+=== 篇幅
+
+如果内容过长，请在 `pages` 内创建一个单独的文件，然后在 `note.adoc` 的相关章节中建立对该文件的索引，`[]` 内填写该文件主要内容的概括。
+
+样例：
+
+....
+== Nginx
+link:.pages/build-live-service-with-nginx.adoc[搭建直播服务]
+....
+
+=== 示例代码文件
+
+代码文件统一放在 `example` 文件夹内。
+
+=== 配图
+
+图片统一放至在 `images` 文件夹内。
+
+使用图片时，使用 `image::filename[description]` 进行引用。
+
+当图片无法加载时，会显示方括号内的图片描述。
+
+[NOTE]
+====
+最好不要使用体积过大的图片，通常为以 `KB` 为单位最好。
+====
+
+样例：
+
+[source, asciidoc]
+----
+image::jxau-logo.jpg[jxau-logo]
+----
+
+效果：
+
+image:jxau-logo.jpg[jxau-logo]
