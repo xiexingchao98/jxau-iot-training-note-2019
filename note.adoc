@@ -458,6 +458,62 @@ return this.success('valid access')
 
 浏览器插件：RESTED（支持Chrome，Firefox）
 
+
+== Python基础
+
+=== 前言
+
+*编译型语言*：先执行，执行完毕，再一起翻译，比如C语言
+
+*解释型语言*：边执行边翻译，执行一行，翻译一行，比如Python
+
+*速度*：编译型语言比解释型语言执行速度快
+
+*跨平台*：解释型语言比编译型语言跨平台性好
+
+=== 常见错误
+
+==== 1>手误
+
+例如：`prit("Hello,World!")`
+
+ `NameError: name 'prit' is not defined`
+
+*名称错误：'prit' 名字没有被定义*
+
+==== 2>多条语句写在同一行
+
+例如：`print("Hello")print("World")`
+
+`SyntaxError: invalid syntax`
+
+*语法错误：语法无效*
+
+每行代码负责完成一个动作
+
+==== 3>缩进错误
+*IndentationError: unexpected indent*
+
+*缩进错误*：不期望出现的缩进
+
+Python语言格式很严格，每行代码要对齐
+
+==== 4>关于中文
+
+使用Python2解释器编译中文会报错
+
+使用Python3解释器可以编译中文
+
+用法  `Python3 文件名.py`
+    
+==== 交互式运行Python程序
+
+*方法*：在终端中键入python或python3进入python解释器，输入exit()或使用快捷键ctrl+D退出官方解释器。
+
+*优点*：适用于学习/验证Python语法或局部代码。
+
+*缺点*：代码无法保存，不适合运行太大的程序。
+
 == 美化
 
 Windows 下 CMD 和 PowerShell 推荐使用 http://www.downcc.com/font/17200.html[Microsoft Yahei Mono] 字体。
@@ -471,3 +527,5 @@ VS Code 下推荐 Material Theme，Atom One Dark 之类的主题。
 https://github.com/tangx/Stop-Ask-Questions-The-Stupid-Ways[《别像弱智一样提问》]
 
 https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md[《提问的智慧》]
+
+https://www.zhihu.com/question/60809486[有哪些看似很傻，实则很聪明的行为？]
