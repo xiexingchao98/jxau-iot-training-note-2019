@@ -201,6 +201,11 @@ model.where( { id： 1 } ).update({ key: value })
 
 == 微信小程序
 
+=== UI组件库
+
+. https://github.com/Tencent/weui-wxss[weui]
+. https://github.com/youzan/vant[vant]
+
 === 使用Thinkjs和MySQL与小程序通信
 
 [NOTE]
@@ -390,13 +395,29 @@ CREATE TABLE order (
 
   ALTER TALBE order add foreign key vendor_id references vendor(vendor_id);
 
+=== MongoDB
+
+待补充
+
 == Web开发
 
 推荐网站：
 
 https://developer.mozilla.org/zh-CN[Mozillia Developer Network]
 
+=== CSS
+
+==== 框架列表
+
+. BootStrap
+. Bulma
+. Spectre
+
 === JavaScript
+
+==== 框架列表
+
+. Vue.js
 
 *当键值的名称一致时，可采用简写形式。*
 
