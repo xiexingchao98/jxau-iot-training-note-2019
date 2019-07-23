@@ -114,7 +114,7 @@ link:./pages/build-live-service-with-nginx.adoc[搭建直播服务]
   git commit -m "Init repo"
 
 7. 将代码推送到远程仓库的 master （主）分支
-
+（前提将项目的.md文件下载到电脑 用 $ git pull --rebase origin master 指令实现）
   git push -u origin master
 
 当远程数据仓库和本体的关联以后就可以进行日常的操作了。
