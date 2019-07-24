@@ -485,14 +485,14 @@ return this.success('valid access')
 
 例如：`print("Hello")print("World")`
 
-`SyntaxError: invalid syntax`
+ `SyntaxError: invalid syntax`
 
 *语法错误：语法无效*
 
 每行代码负责完成一个动作
 
 ==== 3>缩进错误
-*IndentationError: unexpected indent*
+ `IndentationError: unexpected indent`
 
 *缩进错误*：不期望出现的缩进
 
@@ -513,6 +513,144 @@ Python语言格式很严格，每行代码要对齐
 *优点*：适用于学习/验证Python语法或局部代码。
 
 *缺点*：代码无法保存，不适合运行太大的程序。
+
+==== if判断语句
+----
+if 判断条件1:
+    执行语句1……
+elif 判断条件2:
+    执行语句2……
+elif 判断条件3:
+    执行语句3……
+else:
+    执行语句4……
+----
+这里需要注意的是，else后面不能跟条件判断语句，不然会报错
+`SyntaxError: invalid syntax`
+
+*语法错误：非法语法*
+
+==== List列表
+
+Python内置的一种 *数据类型* 是列表：list
+
+List是一个可变的有序表，追加元素到末尾使用 `append()` 方法
+
+----
+>>> classmates.append('Adam')
+>>> classmates
+['Michael', 'Bob', 'Tracy', 'Adam']
+----
+
+把元素插入到指定的位置用insert()方法
+
+----
+>>> classmates.insert(1, 'Jack')
+>>> classmates
+['Michael', 'Jack', 'Bob', 'Tracy', 'Adam']
+----
+
+删除List末尾的元素，用pop()方法
+
+----
+>>> classmates.pop()
+'Adam'
+>>> classmates
+['Michael', 'Jack', 'Bob', 'Tracy']
+----
+
+删除指定位置的元素用pop(i)方法，i是索引位置
+
+----
+>>> classmates.pop(1)
+'Jack'
+>>> classmates
+['Michael', 'Bob', 'Tracy']
+----
+
+替换某个元素，可以直接对相应的索引位置赋值
+
+----
+>>> classmates[1] = 'Sarah'
+>>> classmates
+['Michael', 'Sarah', 'Tracy']
+----
+
+List中的元素数据类型可以不同
+
+----
+>>> L = ['Apple', 123, True]
+----
+
+List元素也可以是另一个List
+
+----
+>>> s = ['python', 'java', ['asp', 'php'], 'scheme']
+>>> len(s)
+4
+拆开写就是
+>>> p = ['asp', 'php']
+>>> s = ['python', 'java', p, 'scheme']
+要拿到'php'可以写p[1]或者s[2][1]，因此s可以看成一个二维数组
+----
+
+==== tuple元组
+
+tuple与list很相似，但是tuple一旦初始化就不能再修改
+
+* *tuple的陷阱：* 当你定义一个tuple时，在定义的时候，tuple的元素就必须被确定下来，比如：
+
+----
+>>> t = (1, 2)
+>>> t
+(1, 2)
+----
+
+如果要定义一个 *空的* tuple，可以写成()：
+
+----
+>>> t = ()
+>>> t
+()
+----
+
+但是，要定义一个 *只有1个元素* 的tuple，如果你这么定义：
+
+----
+>>> t = (1)
+>>> t
+1
+这样定义相当于将t变成了整型数据1
+----
+
+定义的不是tuple，是1这个数！这是因为括号()既可以表示tuple，又可以表示数学公式中的小括号，这就产生了歧义，因此，Python规定，这种情况下，按小括号进行计算，计算结果自然是1。
+
+所以，只有1个元素的tuple定义时必须加一个逗号,，来消除歧义：
+
+----
+>>> t = (1,)
+>>> t
+(1,)
+这样才是tuple型数据
+----
+
+Python在显示只有1个元素的tuple时，也会加一个逗号，以免你误解成数学计算意义上的括号。
+
+===== tuple到底变不变
+
+----
+>>> t = ('a', 'b', ['A', 'B'])
+>>> t[2][0] = 'X'
+>>> t[2][1] = 'Y'
+>>> t
+('a', 'b', ['X', 'Y'])
+----
+
+[NOTE]
+====
+表面上看，tuple的元素确实变了，但其实变的不是tuple的元素，而是list的元素。tuple一开始指向的list并没有改成别的list，所以，tuple所谓的“不变”是说，tuple的每个元素，指向永远不变。即指向'a'，就不能改成指向'b'，指向一个list，就不能改成指向其他对象，但指向的这个list本身是可变的！
+====
+
 
 == 美化
 
