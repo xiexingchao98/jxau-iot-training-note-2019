@@ -140,6 +140,22 @@ git push
 
 link:./pages/can-not-push-local-repo-to-remote-repo.adoc[无法推送本地仓库到远程仓库（新创建并含有默认的README）]
 
+=== 如何同步更新github上Fork的项目
+
+1.Fork一个项目，比如spring-framework，该操作会复制该项目的所有历史提交内容到个人仓库中，并生成一个相同的项目；
+2.Clone之前Fork的项目到本地计算机中；
+3.在本地仓库中更新某些文件；
+4.提交更新的文件到本地仓库；
+5.将本地仓库的更改内容推送push到个人github远程仓库；
+6.创建pull请求，既可以同步更新fork的原始项目中别人的更新到自己的github仓库中，也可以提交个人更新的内容到fork的原始项目。
+
+总结：
+
+本文详细讲解了同步更新Github上Fork项目的其中一种方法，还有其他的方法比如可以删除个人github中fork的该项目然后重新fork，这种方式不能合并自己已更新的代码；还有另外一种方式是在本地建立两个仓库，把两个远程库都clone到本地，然后拉取原fork项目更新到本地，合并更新，最后push到你个人的github即可。
+附上超级详细的博客链接:
+https://www.jianshu.com/p/8ab6ef7ce5e3
+
+
 == Node.js
 
 === 更换npm下载源
@@ -223,9 +239,11 @@ image:table-describe.png[vmware tools-setting.png]
 
 ==== Thinkjs测试代码
 
-首先在 `controller` 里面新建一个 `database.js`  测试文件。这里注意把 `database` 改成自己的数据库名字。然后密码改成自己的就行了。
+首先在 `controller` 里面新建一个 `mesqltest.js`  数据库测试文件。这里注意把 `database` 改成自己的数据库名字。然后密码改成自己的就行了。
 
 image:database-code.png[vmware tools-setting.png]
+
+
 
 ==== 微信前端交互
 
@@ -535,6 +553,20 @@ Python语言格式很严格，每行代码要对齐
 
 *缺点*：代码无法保存，不适合运行太大的程序。
 
+=== python 小 demo
+
+1.汉若塔问题的实现
+
+def hanoi (n,a,b,c):
+
+    if n == 1:
+        print(a,'-->',c)
+    else:
+        hanoi(n-1,a,c,b)
+        print(a,'-->',c)
+        hanoi(n-1,b,a,c)
+        hanoi(3,'A','B','C')
+        
 == 美化
 
 Windows 下 CMD 和 PowerShell 推荐使用 http://www.downcc.com/font/17200.html[Microsoft Yahei Mono] 字体。
