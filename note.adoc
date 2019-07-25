@@ -5,155 +5,30 @@
 
 https://jaywcjlove.gitee.io/linux-command[命令手册]
 
-=== Ubuntu安装VMwareTools
 
-[TIP]
-====
-声明：此方法适合初学小白使用，高手请自动略过。
-====
+=== Ubuntu
 
-出这个文档的意义：
+==== 常见问题
 
-1. 自己搞了好久没搞定，出现了很多问题，总是安装失败，百度了好久
-
-2. 通过自己的实践和百度，找到了方法。给自己提个醒。
-
-3. 帮助更多和我一样的小白解决问题！
-
-第一步：点击你们的虚拟机名字，右击的，点击安装 VMware Tools
-
-image:vmware tools-setting.png[vmware tools-setting.png]
-
-第二步：复制 VMware Tools 安装包到 home 目录
-
-在此页面的下方会有一个安装 VMware Tools 的提示，点击进入，在 Ubuntu 系统桌面上面创建一个光盘的图标，表明将这个安装文件已经放进来了
-
-image:vmware tools-tar.png[vmware tools-tar.png]
-
-双击点进去这个光盘，里面有一个这个文件 [点击并拖拽以移动] ，为了好操作，你直接把这个文件复制或者剪切到主目录下面，也就是 home 目录，如下图所示：
-
-image:vmware tools-home.png[vmware tools-home.png]
-
-第三步：在当前这个目录下打开终端
-
-执行解压目录，解压 VMware Tools 压缩包
-
-注意一下，如果你不是 root 用户登录的，在此命令之前加 `sudo` ,防止出错，这里统一加上
-
-....
-sudo tar vzxf VMwareTools-10.1.6-5214329.tar.gz
-....
-
-注意：这里 VMware Tools 版本根据自己的型号来定，可以不需要手动打字
-
-直接找到这个文件 [点击并拖拽以移动] 鼠标右击，点击属性，里面有名字，直接复制这个文件名就可以了
-
-然后，你就会看到一大堆代码
-
-第四步：切换到 vmware-tools-distrib 目录
-
-这里有两种方法：
-
-1. 在刚刚执行解压命令的终端 输入 cd vmware-tools-distrib/
-
-2. 找到你刚刚解压的文件夹，就是在你复制的那个主目录下 ，会有一个解压包 [点击并拖拽以移动]
-
-image:vmware tools-distrib.png[vmware tools-distrib.png]
-
-右击，打开终端，就到了这个文件目录下面了
-
-最后执行安装
-
-....
-sudo ./vmware-install.pl
-....
-
-然后，你需要枯燥了按下 yes 和回车按钮，一直按，知道最后，会出现一个命令：
-
-....
-you can enjoy it!
-....
-
-恭喜你，安装成功了。
-
-重启虚拟机，点击全屏，如果能显示全屏，则安装成功了，也可以从 Windows 复制文件去 Linux 上了！
+link:.pages/install-vmwaretools-on-ubuntu.adoc[Ubuntu安装VMwareTools]
 
 == Nginx
+
+=== 应用实例
 
 link:./pages/build-live-service-with-nginx.adoc[搭建直播服务]
 
 == Git
 
-=== 上传本地代码至Github
+=== 入门
 
-为什么要传到 Github 中呢，因为，你用过就会知道有多么美妙了！（By: 陈鑫）
-
-1. 在 Github 中创建一个和自己项目名字一样的仓库
-
-  eg: 我自己创建的就是一个文件夹 demo
-
-2. 打开 Git bash
-
-  在自己本地的项目 demo 文件夹中，在空白处，使用鼠标右键选择 `Git bash here`
-
-3. 初始化 Git 仓库
-
-  git init
-
-4. 添加远程仓库地址
-
-  // 请使用你自己的仓库地址
-  git remote add origin https://github.com/WhiteLie1/demo.git    
-
-5. 添加文件至暂存区
-
-  git add -A    // 添加所有文件
-
-6. 提交暂存区的修改（提交至本地）
-
-  git commit -m "Init repo"
-
-7. 将代码推送到远程仓库的 master （主）分支
-（前提将项目的.md文件下载到电脑 用 $ git pull --rebase origin master 指令实现）
-  git push -u origin master
-
-当远程数据仓库和本体的关联以后就可以进行日常的操作了。
-
-首先呢，一定是在你项目当前的目录下打开 `Git bash here` ,然后你需要做的是：
-
-[source, bash]
-----
-// 添加所有修改过或新增的文件
-git add .
-
-// 查看文件状态
-git status
-
-// 提交并说明修改情况
-git commit -m "修改了某文件"
-
-/ 推送到远程仓库
-git push
-----
+link:.pages/upload-local-code-to-github.adoc[上传本地代码至Github]
 
 === 常见问题
 
 link:./pages/can-not-push-local-repo-to-remote-repo.adoc[无法推送本地仓库到远程仓库（新创建并含有默认的README）]
 
-=== 如何同步更新github上Fork的项目
-
-1.Fork一个项目，比如spring-framework，该操作会复制该项目的所有历史提交内容到个人仓库中，并生成一个相同的项目；
-2.Clone之前Fork的项目到本地计算机中；
-3.在本地仓库中更新某些文件；
-4.提交更新的文件到本地仓库；
-5.将本地仓库的更改内容推送push到个人github远程仓库；
-6.创建pull请求，既可以同步更新fork的原始项目中别人的更新到自己的github仓库中，也可以提交个人更新的内容到fork的原始项目。
-
-总结：
-
-本文详细讲解了同步更新Github上Fork项目的其中一种方法，还有其他的方法比如可以删除个人github中fork的该项目然后重新fork，这种方式不能合并自己已更新的代码；还有另外一种方式是在本地建立两个仓库，把两个远程库都clone到本地，然后拉取原fork项目更新到本地，合并更新，最后push到你个人的github即可。
-附上超级详细的博客链接:
-https://www.jianshu.com/p/8ab6ef7ce5e3
+link:./pages/update-fork-repository-on-github.adoc[在Github上更新Fork仓库]
 
 
 == Node.js
@@ -169,13 +44,9 @@ npm config set registry https://registry.npm.taobao.org
 
 淘宝NPM源官网 -  https://npm.taobao.org
 
-=== Think.js框架
+=== 框架
 
-*热更新*
-
-`Think.js` 框架支持热更新操作，保存文件后会自动重新部署，即刻生效，你可以在终端输出中看到相关信息。
-
-而在 `java` 中，针对 `controller` 也就是 `servlet` 的修改操作，需要 `Redelploy` 或者 `Restart` 来使得更改生效，整个过程耗时要长一些。
+==== Thinkjs
 
 *数据库安全*
 
@@ -211,9 +82,9 @@ model.where( { id： 1 } ).update('{ key: value }')
 model.where( { id： 1 } ).update({ key: value })
 ----
 
-*简单下载功能*
+===== 代码示例
 
-参阅： link:./example/file.js[file.js]
+link:./example/file.js[文件上传与下载]
 
 == 微信小程序
 
@@ -284,38 +155,11 @@ https://juejin.im/entry/5af1b16d6fb9a07aca7a20d3
 
 === MySQL
 
-==== 安装
+==== 基础
 
-以 Windows 下 zip 格式的文件（版本5.7）安装为例：
+===== 安装
 
-1. 同时按下 WIN + X 键，打开 Powershell（管理员模式）
-2. 进入 mysql 目录
-
-  cd 'mysql_dir/bin'
-
-3. 执行初始化操作
-
-  ./mysqld --initialize
-
-4. 搜索 `*.err` 文件，打开后可在最后一行看到默认登陆密码，例如： `A temporarily password has generated for ...`
-
-5. 启动 mysql
-
-  ./mysqld --console
-
-6. 将 `mysql` 的 `bin` 目录添加到 `path` 环境变量（方便在命令行中使用 mysql）
-
-7. 登陆
-
-  mysql -uroot -p
-
-8. 更改密码
-
-  alter user 'root'@localhost identified by 'new password'
-
-官方文档
-
-https://dev.mysql.com/doc/refman/5.7/en/windows-install-archive.html
+link:.pages/install-mysql57-on-windows-with-zip-package.adoc[在Windows下安装MySQL(zip格式安装包)]
 
 ==== 常见问题
 
@@ -376,42 +220,7 @@ net start mysql
 create table user (name varchar(20)) default charset=utf8;
 ----
 
-==== 命令快速参考
-创建表
-
-----
-// 一般形式
-CREATE TABLE table_name (id int primary key auto_increment ... )
-
-// 含外键
-CREATE TABLE order (
-  id int primary key auto_increment,
-  user_id int,
-  vendor_id int
-  foreign key (user_id) references user(id),
-  foreign key (vendor_id) references vendor(id)
-)
-----
-
-更新字段
-
-  UPDATE user SET name = 'Jack' WHERE id = 1;
-
-删除记录
-
-  DELETE FROM user where id = 1;
-
-删除表
-
-  DROP TABLE user;
-
-更改字段定义
-
-  ALTER TABLE user MODIFY nickname varchar(100) default 'newUser';
-
-增加外键约束
-
-  ALTER TALBE order add foreign key vendor_id references vendor(vendor_id);
+link:.pages/quick-refrence-of-mysql-command.adoc[MySQL常见命令快速参考]
 
 === MongoDB
 
@@ -498,17 +307,23 @@ return this.success('valid access')
 浏览器插件：RESTED（支持Chrome，Firefox）
 
 
-== Python基础
+== Python
 
-=== 前言
+=== 语言类型
 
-*编译型语言*：先翻译，翻译完毕，再一起执行，比如C语言
+编译型语言（如：C）执行步骤：
 
-*解释型语言*：边翻译边执行，翻译一行，执行一行，比如Python
+翻译 => 全部翻译完毕 => 执行
 
-*速度*：编译型语言比解释型语言执行速度快
+解释型语言（如：Python）执行步骤：
 
-*跨平台*：解释型语言比编译型语言跨平台性好
+翻译 => 执行 => 翻译 => 执行
+
+二者的比较
+
+速度：编译型语言比解释型语言执行速度快
+
+跨平台：解释型语言比编译型语言跨平台性好
 
 === 常见错误
 
