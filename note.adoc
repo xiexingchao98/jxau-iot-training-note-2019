@@ -512,7 +512,7 @@ return this.success('valid access')
 
 === 常见错误
 
-==== 1>手误
+==== 手误
 
 例如：`prit("Hello,World!")`
 
@@ -520,24 +520,24 @@ return this.success('valid access')
 
 *名称错误：'prit' 名字没有被定义*
 
-==== 2>多条语句写在同一行
+==== 多条语句写在同一行
 
 例如：`print("Hello")print("World")`
 
-`SyntaxError: invalid syntax`
+ `SyntaxError: invalid syntax`
 
 *语法错误：语法无效*
 
 每行代码负责完成一个动作
 
-==== 3>缩进错误
-*IndentationError: unexpected indent*
+==== 缩进错误
+ `IndentationError: unexpected indent`
 
 *缩进错误*：不期望出现的缩进
 
 Python语言格式很严格，每行代码要对齐
 
-==== 4>关于中文
+==== 关于中文
 
 使用Python2解释器编译中文会报错
 
@@ -553,10 +553,150 @@ Python语言格式很严格，每行代码要对齐
 
 *缺点*：代码无法保存，不适合运行太大的程序。
 
-=== python 小 demo
+==== if判断语句
+
+----
+if 判断条件1:
+    执行语句1……
+elif 判断条件2:
+    执行语句2……
+elif 判断条件3:
+    执行语句3……
+else:
+    执行语句4……
+----
+
+这里需要注意的是，`else` 后面不能跟条件判断语句，不然会报错 `SyntaxError: invalid syntax`
+
+*语法错误：非法语法*
+
+==== List列表
+
+Python 内置的一种 *数据类型* 是列表： list
+
+List 是一个可变的有序表，追加元素到末尾使用 `append()` 方法
+
+----
+>>> classmates.append('Adam')
+>>> classmates
+['Michael', 'Bob', 'Tracy', 'Adam']
+----
+
+把元素插入到指定的位置用 `insert()` 方法
+
+----
+>>> classmates.insert(1, 'Jack')
+>>> classmates
+['Michael', 'Jack', 'Bob', 'Tracy', 'Adam']
+----
+
+删除 List 末尾的元素，用 `pop()` 方法
+
+----
+>>> classmates.pop()
+'Adam'
+>>> classmates
+['Michael', 'Jack', 'Bob', 'Tracy']
+----
+
+删除指定位置的元素用 `pop(i)` 方法， i 是索引位置
+
+----
+>>> classmates.pop(1)
+'Jack'
+>>> classmates
+['Michael', 'Bob', 'Tracy']
+----
+
+替换某个元素，可以直接对相应的索引位置赋值
+
+----
+>>> classmates[1] = 'Sarah'
+>>> classmates
+['Michael', 'Sarah', 'Tracy']
+----
+
+List 中的元素数据类型可以不同
+
+----
+>>> L = ['Apple', 123, True]
+----
+
+List 元素也可以是另一个 List
+
+----
+>>> s = ['python', 'java', ['asp', 'php'], 'scheme']
+>>> len(s)
+4
+拆开写就是
+>>> p = ['asp', 'php']
+>>> s = ['python', 'java', p, 'scheme']
+要拿到 'php' 可以写 p[1] 或者 s[2][1] ，因此 s 可以看成一个二维数组
+----
+
+==== tuple元组
+
+tuple 与 list 很相似，但是 tuple 一旦初始化就不能再修改
+
+*tuple的陷阱：* 当你定义一个 tuple 时，在定义的时候， tuple 的元素就必须被确定下来，比如：
+
+----
+>>> t = (1, 2)
+>>> t
+(1, 2)
+----
+
+如果要定义一个 *空的* tuple，可以写成()：
+
+----
+>>> t = ()
+>>> t
+()
+----
+
+但是，要定义一个 *只有1个元素* 的 tuple ，如果你这么定义：
+
+----
+>>> t = (1)
+>>> t
+1
+这样定义相当于将t变成了整型数据1
+----
+
+定义的不是 tuple，是 1 这个数！这是因为括号()既可以表示 tuple ，又可以表示数学公式中的小括号，这就产生了歧义，因此， Python 规定，这种情况下，按小括号进行计算，计算结果自然是1。
+
+所以，只有1个元素的 tuple 定义时必须加一个逗号,，来消除歧义：
+
+----
+>>> t = (1,)
+>>> t
+(1,)
+这样才是tuple型数据
+----
+
+Python 在显示只有1个元素的 tuple 时，也会加一个逗号，以免你误解成数学计算意义上的括号。
+
+===== tuple到底变不变
+
+----
+>>> t = ('a', 'b', ['A', 'B'])
+>>> t[2][0] = 'X'
+>>> t[2][1] = 'Y'
+>>> t
+('a', 'b', ['X', 'Y'])
+----
+
+[NOTE]
+====
+表面上看，tuple的元素确实变了，但其实变的不是tuple的元素，而是list的元素。tuple一开始指向的list并没有改成别的list，所以，tuple所谓的“不变”是说，tuple的每个元素，指向永远不变。即指向'a'，就不能改成指向'b'，指向一个list，就不能改成指向其他对象，但指向的这个list本身是可变的！
+====
+
+=== Demo
 
 1.汉若塔问题的实现
 
+[source, python]
+----
 def hanoi (n,a,b,c):
 
     if n == 1:
@@ -566,7 +706,7 @@ def hanoi (n,a,b,c):
         print(a,'-->',c)
         hanoi(n-1,b,a,c)
         hanoi(3,'A','B','C')
-        
+----
 == 美化
 
 Windows 下 CMD 和 PowerShell 推荐使用 http://www.downcc.com/font/17200.html[Microsoft Yahei Mono] 字体。
