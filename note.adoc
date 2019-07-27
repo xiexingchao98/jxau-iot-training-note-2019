@@ -93,127 +93,27 @@ link:./example/file.js[文件上传与下载]
 . https://github.com/Tencent/weui-wxss[weui]
 . https://github.com/youzan/vant[vant]
 
-=== 使用Thinkjs和MySQL与小程序通信
+=== 基础
 
-[NOTE]
-====
-这里代码主要以截图为主，多动手,比什么都来的实际！
-====
+link:./pages/communication-between-miniprogram-and-thinkjs.adoc[Thinkjs与小程序的通信]
 
-==== 建SQL表
+=== 实例
 
-使用命令行或者Navicat工具建表。
-
-这里注意一下：我的数据库名字是 `day712`，建立了一个 `goods_item` 表。后面的测试都基于这个。表的字段属性和相关设置截图都有注释，请自行翻阅。
-
-image:table-describe.png[vmware tools-setting.png]
-
-==== Thinkjs测试代码
-
-首先在 `controller` 里面新建一个 `mesqltest.js`  数据库测试文件。这里注意把 `database` 改成自己的数据库名字。然后密码改成自己的就行了。
-
-image:database-code.png[vmware tools-setting.png]
-
-
-
-==== 微信前端交互
-
-我这里是把商城页面的所有商品图片、售价和库存放入数据库。
-
-首先在自己想要测试的 `demo` 里面，往 `.js` 里面加入商品列表。
-
-如下图所示，我在 `data` 里面放了一个 `goodsList` 来接收数据。
-
-image:good-lists.png[good-lists.png]
-
-重点来了，这里设置 `url` 地址，来访问 `thinkjs` 后台的地址，实现数据交互功能。
-
-image:onload-code.png[onliad-code.png]
-
-[NOTE]
-====
-这个 `url` 地址并不是 `localhost:8360/mysqltest`。这个地址要是你电脑的动态 ip 地址才行，localhost 可能会无法访问。查询本机 `ip` 在 `cmd` 中输入 `ipconfig` 查询。如果编译出现不合法域名，请在开发工具设置里面勾选不校验合法域名。
-====
-
-这里使用一个 `view` 来测试一下能否接收从数据库传过来的东西。
-
-image:goods-use.png[goods-use.png]
-
-`npm start` 启动一下服务端，效果显示如下图：
-
-image:goods-show.png[goods-show.png]
-
-这里说明一下，`wx:for` 和 `{{}}` 的使用请自行查看微信小程序开发文档。
-
-这里的 `{{item.picture_url}}` 里面存放的是我的本地图片存储路径。我的图片存在 `image` 文件夹里面。正常路径是 `../../image/goo1.png` 我这里把这个路径存在了数据库中的 `picture_url` 中。直接调用就行，至于图片，不能直接存图片到数据库里面，要先转换成二进制，过于复杂，以后弄懂了再来搞。
-
-微信小程序商城Demo（Thinkjs + MySQL）
-
-https://juejin.im/entry/5af1b16d6fb9a07aca7a20d3
+https://juejin.im/entry/5af1b16d6fb9a07aca7a20d3[小程序商城Demo（Thinkjs + MySQL）]
 
 == 数据库
 
 === MySQL
 
-==== 基础
-
-===== 安装
+安装
 
 link:.pages/install-mysql57-on-windows-with-zip-package.adoc[在Windows下安装MySQL(zip格式安装包)]
 
-==== 常见问题
+常见问题
 
-*查看和设置数据库编码*
+link:.pages/ways-to-resolve-encoding-error-in-mysql.adoc[解决MySQL中编码错误的方法]
 
-[source, mysql]
-----
-# 查看编码
-show variables like "%char%"
-
-# 设置编码
-set character_set_xxx utf8
-----
-
-[NOTE]
-====
-此方法仅本次有效，下次启动或者登陆时，会加载默认配置
-====
-
-* sqlyog 中取消勾选表属性中隐藏语言选项（最右）
-
-  选择字符集为utf8,核对为utf8_general_ci
-
-*在配置文件中设置编码*
-
-在 `mysql` 目录中找到或者创建 `my.ini` 文件，并依据具体情况加入以下内容：
-
-....
-[mysqld]
-character-set-server=utf8
-
-[client]
-default-character-set=utf8
-
-[mysql]
-default-character-set=utf8
-....
-
-*重启服务*
-
-....
-net stop mysql
-
-net start mysql
-....
-
-[NOTE]
-====
-此方法应该不适用于以 `zip` 格式安装的用户
-====
-
-*插入中文数据发生错误*
-
-创建表时指定 `utf8` 编码即可。
+其它
 
 [source, mysql]
 ----
@@ -246,7 +146,11 @@ https://developer.mozilla.org/zh-CN[Mozillia Developer Network]
 
 . Vue.js
 
-*当键值的名称一致时，可采用简写形式。*
+link:.pages/be-careful-when-using-strict-operator.adoc[使用严格运算符时请小心]
+
+[TIP]
+====
+键值的名称一致时，可简写。
 
 [source, js]
 ----
@@ -255,7 +159,7 @@ let data1 = { userID: userID }    // { userID: 1 }
 let data2 = { userID }    // 简写形式，效果与上面相同
 ----
 
-*可在反引号（`）中引用变量。*
+反引号（`）中可引用变量。
 
 [source, js]
 ----
@@ -263,42 +167,7 @@ let str1 = 'world'
 let str2 = 'hello ' + `${str1}`    // result: 'hello world'
 ----
 
-*严格运算符*
-
-`===` 表示等于
-
-`!==` 表示不等于
-
-[NOTE]
 ====
-请谨慎使用 `===` ，以免造成你意想不到的结果。
-====
-
-示例：
-
-我希望从 `cookie` 中取出指定值，对用户进行一个验证。如果该 `cookie` 不存在，则该次访问不合法，否则允许访问。
-
-[source, js]
-----
-let vendor = this.cookie('vendor')
-if (vendor === null || vendor === '')
-  return this.fail('invalid access')
-return this.success('valid access')
-----
-
-现在 `cookie` 中不存在 `vendor`，那么代码变成如下效果：
-
-[source, js]
-----
-let vendor = undefined
-if (undefined === null || undefined === '')    // false
-  return this.fail('invalid access')
-return this.success('valid access')
-----
-
-因为 `undefined === null => false` ，所以不管该 `cookie` 是否存在，最终都会返回成功。
-
-顺带一提 `undefined == null => true` 。
 
 === HTTP请求调试工具
 
