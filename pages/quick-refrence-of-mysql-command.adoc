@@ -1,0 +1,36 @@
+= MySQL常见命令快速参考
+创建表
+
+----
+// 一般形式
+CREATE TABLE table_name (id int primary key auto_increment ... )
+
+// 含外键
+CREATE TABLE order (
+  id int primary key auto_increment,
+  user_id int,
+  vendor_id int
+  foreign key (user_id) references user(id),
+  foreign key (vendor_id) references vendor(id)
+)
+----
+
+更新字段
+
+  UPDATE user SET name = 'Jack' WHERE id = 1;
+
+删除记录
+
+  DELETE FROM user where id = 1;
+
+删除表
+
+  DROP TABLE user;
+
+更改字段定义
+
+  ALTER TABLE user MODIFY nickname varchar(100) default 'newUser';
+
+增加外键约束
+
+  ALTER TALBE order add foreign key vendor_id references vendor(vendor_id);

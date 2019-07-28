@@ -1,0 +1,53 @@
+= 解决MySQL中编码错误的方法
+
+*查看和设置数据库编码*
+
+[source, mysql]
+----
+# 查看编码
+show variables like "%char%"
+
+# 设置编码
+set character_set_xxx utf8
+----
+
+[NOTE]
+====
+此方法仅本次有效，下次启动或者登陆时，会加载默认配置
+====
+
+* sqlyog 中取消勾选表属性中隐藏语言选项（最右）
+
+  选择字符集为utf8,核对为utf8_general_ci
+
+*在配置文件中设置编码*
+
+在 `mysql` 目录中找到或者创建 `my.ini` 文件，并依据具体情况加入以下内容：
+
+....
+[mysqld]
+character-set-server=utf8
+
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8
+....
+
+*重启服务*
+
+....
+net stop mysql
+
+net start mysql
+....
+
+[NOTE]
+====
+此方法应该不适用于以 `zip` 格式安装的用户
+====
+
+*插入中文数据发生错误*
+
+创建表时指定 `utf8` 编码即可。
