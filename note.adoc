@@ -10,7 +10,7 @@ https://jaywcjlove.gitee.io/linux-command[命令手册]
 
 ==== 常见问题
 
-link:.pages/install-vmwaretools-on-ubuntu.adoc[Ubuntu安装VMwareTools]
+link:./pages/install-vmwaretools-on-ubuntu.adoc[Ubuntu安装VMwareTools]
 
 == Nginx
 
@@ -22,7 +22,7 @@ link:./pages/build-live-service-with-nginx.adoc[搭建直播服务]
 
 === 入门
 
-link:.pages/upload-local-code-to-github.adoc[上传本地代码至Github]
+link:./pages/upload-local-code-to-github.adoc[上传本地代码至Github]
 
 === 常见问题
 
@@ -107,11 +107,11 @@ https://juejin.im/entry/5af1b16d6fb9a07aca7a20d3[小程序商城Demo（Thinkjs +
 
 安装
 
-link:.pages/install-mysql57-on-windows-with-zip-package.adoc[在Windows下安装MySQL(zip格式安装包)]
+link:./pages/install-mysql57-on-windows-with-zip-package.adoc[在Windows下安装MySQL(zip格式安装包)]
 
 常见问题
 
-link:.pages/ways-to-resolve-encoding-error-in-mysql.adoc[解决MySQL中编码错误的方法]
+link:./pages/ways-to-resolve-encoding-error-in-mysql.adoc[解决MySQL中编码错误的方法]
 
 其它
 
@@ -120,7 +120,7 @@ link:.pages/ways-to-resolve-encoding-error-in-mysql.adoc[解决MySQL中编码错
 create table user (name varchar(20)) default charset=utf8;
 ----
 
-link:.pages/quick-refrence-of-mysql-command.adoc[MySQL常见命令快速参考]
+link:./pages/quick-refrence-of-mysql-command.adoc[MySQL常见命令快速参考]
 
 === MongoDB
 
@@ -146,7 +146,7 @@ https://developer.mozilla.org/zh-CN[Mozillia Developer Network]
 
 . Vue.js
 
-link:.pages/be-careful-when-using-strict-operator.adoc[使用严格运算符时请小心]
+link:./pages/be-careful-when-using-strict-operator.adoc[使用严格运算符时请小心]
 
 [TIP]
 ====
