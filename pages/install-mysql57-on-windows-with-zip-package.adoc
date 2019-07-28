@@ -1,0 +1,37 @@
+= 在Windows下安装MySQL(zip格式安装包)
+
+[NOTE]
+====
+安装包为 5.7 版本
+====
+
+步骤：
+
+1. 同时按下 WIN + X 键，打开 Powershell（管理员模式）
+2. 进入 mysql 目录
+
+  cd 'mysql_dir/bin'
+
+3. 执行初始化操作
+
+  ./mysqld --initialize
+
+4. 搜索 `*.err` 文件，打开后可在最后一行看到默认登陆密码，例如： `A temporarily password has generated for ...`
+
+5. 启动 mysql
+
+  ./mysqld --console
+
+6. 将 `mysql` 的 `bin` 目录添加到 `path` 环境变量（方便在命令行中使用 mysql）
+
+7. 登陆
+
+  mysql -uroot -p
+
+8. 更改密码
+
+  alter user 'root'@localhost identified by 'new password'
+
+官方文档
+
+https://dev.mysql.com/doc/refman/5.7/en/windows-install-archive.html
