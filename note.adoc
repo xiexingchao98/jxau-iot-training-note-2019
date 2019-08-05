@@ -5,7 +5,6 @@
 
 https://jaywcjlove.gitee.io/linux-command[命令手册]
 
-
 === Ubuntu
 
 ==== 常见问题
@@ -217,7 +216,7 @@ Python2解释器编译中文会报错,
 但是Python3解释器可以编译中文
 
 用法  `Python3 文件名.py`
-    
+
 ==== 交互式运行Python程序
 
 *方法*：在终端中键入python或python3进入python解释器，输入exit()或使用快捷键ctrl+D退出官方解释器。
@@ -243,6 +242,42 @@ else:
 *语法错误：非法语法*
 
 link:./pages/list-and-tuple-Detailed-use-cases.adoc[1.list和tuple详细用例]
+
+== Java
+
+=== Spring Boot
+
+==== 创建第一个 Spring Boot 应用
+
+[NOTE]
+====
+请确保你的电脑安装了 JDK
+====
+
+这里我们使用 Gradle 搭配 IntelliJ IDEA 来构建应用。
+
+1. Create New Project，应用类型中选择 Spring Initializer
+2. Project 信息填写界面中，Type 选择 Gradle Project
+3. Dependencies 中选择 Web ，右侧依赖列表中 选择 Spring Web Starter
+
+然后 IntelliJ IDEA 会提示设置从 Gradle 导入模块的配置。
+
+只需要开启自动导入和勾选使用本地 Gradle 即可。
+
+项目创建完毕后，IntelliJ IDEA 会开始自动下载相关文件，但是 maven repo 在国内访问过慢，我们需要将它更换为国内阿里 maven repo 地址。
+
+.build.gradle
+....
+repositories {
+    maven {
+        url "https://maven.aliyun.com/repository/central"
+    }
+    mavenLocal()
+    mavenCentral()
+}
+....
+
+然后在右侧边栏中打开 Gradle 管理面板，在项目名上右键，选择刷新 Gradle 项目即可。
 
 == 美化
 
