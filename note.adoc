@@ -30,6 +30,12 @@ link:./pages/can-not-push-local-repo-to-remote-repo.adoc[无法推送本地仓�
 
 link:./pages/update-fork-repository-on-github.adoc[在Github上更新Fork仓库]
 
+git拉取代码报错：error:RPC failed; curl 56 OpenSSL SSL_read: SSL_ERROR_SYSCALL, errno 10054
+解决办法：博客地址：https://blog.csdn.net/qq_37161280/article/details/98758760
+
+克隆报错：error: RPC failed; curl 18 transfer closed with outstanding read data remaining fatal: the remote en
+解决办法：https://blog.csdn.net/qq_37161280/article/details/98757267
+
 
 == Node.js
 
