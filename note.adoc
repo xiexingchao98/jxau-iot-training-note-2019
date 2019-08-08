@@ -1,4 +1,6 @@
 :toc:
+:toclevels: 5
+:toc-title: 目录
 :imagesdir: ./images
 
 == Linux
@@ -103,6 +105,9 @@ link:./example/file.js[文件上传与下载]
 link:./pages/communication-between-miniprogram-and-thinkjs.adoc[Thinkjs与小程序的通信]
 
 === 实例
+
+link:./pages/use-vant.adoc[使用Vant]
+
 
 https://juejin.im/entry/5af1b16d6fb9a07aca7a20d3[小程序商城Demo（Thinkjs + MySQL）]
 
@@ -223,7 +228,7 @@ nohttpinterface = true
 --auth 是否需要验证权限登录(用户名和密码)
 --syncdelay 数据写入硬盘的时间（秒），0是不等待，直接写入
 --notablescan 不允许表扫描
---maxConns 最大的并发连接数，默认2000  
+--maxConns 最大的并发连接数，默认2000
 --pidfilepath 指定进程文件，不指定则不产生进程文件
 --bind_ip 绑定IP，绑定后只能绑定的IP访问服务
 ----
