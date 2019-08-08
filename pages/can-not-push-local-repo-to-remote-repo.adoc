@@ -73,3 +73,28 @@ Merge made by the 'recursive' strategy.
  create mode 100644 README.en.md
  create mode 100644 README.md
 ----
+
+*关于合并冲突问题*
+
+* 问题描述
+
+最近我在拉取git仓库时出现了如下问题
+
+[source, bash]
+----
+$ git pull
+error: Pulling is not possible because you have unmerged files.
+hint: Fix them up in the work tree, and then use 'git add/rm <file>'
+hint: as appropriate to mark resolution and make a commit.
+fatal: Exiting because of an unresolved conflict.
+----
+
+* 解决方法
+
+首先我先将我github上Fork仓库 `pull request` 更新到最新版本，然后在经过在网上的查找，我使用这种方法一行代码解决了
+
+1.将本地的冲突文件冲掉，不仅需要 `reset` 到 `MERGE-HEAD` 或者 `HEAD` ,还需要 `--hard`。没有后面的 `hard`，不会冲掉本地工作区。只会冲掉 `stage` 区。
+
+只需使用 `git reset --hard FETCH_HEAD`
+
+2.git pull就会成功。
