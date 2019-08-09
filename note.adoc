@@ -298,6 +298,8 @@ link:./pages/python-basic-knowledge.adoc[1.Python入门了解]
 
 link:./pages/list-and-tuple-Detailed-use-cases.adoc[2.Python基础]
 
+link:./pages/python_object_oriented.adoc[3.Python面向对象]
+
 == Java
 
 === Spring Boot
