@@ -1,0 +1,34 @@
+= 使用 Vant UI 组件库
+
+https://youzan.github.io/vant-weapp/#/intro - 官方文档
+
+1.安装 `nodejs`
+
+https://nodejs.org/en/ - 官网
+
+2.使用 PowerShell or Git Bash 进入项目根目录
+
+键入命令
+....
+npm init
+npm i vant-weapp -S --production
+....
+
+3.打开微信开发者工具，在项目详情中勾选 【使用 npm 模块】，然后在工具栏中点击 【构建 npm】
+
+4.导入组件
+
+构建 npm 成功之后，项目目录下会多出一个 `miniprogram_npm` 文件夹，里面有个 `vant-weapp` 文件夹。
+
+在 `app.json` 中导入需要使用的组件
+
+....
+"usingComponents": {
+  "van-button": "/miniprogram_npm/vant-weapp/button/index"
+}
+....
+
+[NOTE]
+====
+在 `app.json` 中导入组件属于懒人方法，应该不利于性能。勤快的可以在每个页面中分别导入需要使用的组件。
+====
