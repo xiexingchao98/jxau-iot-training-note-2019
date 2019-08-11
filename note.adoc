@@ -294,6 +294,8 @@ let str2 = 'hello ' + `${str1}`    // result: 'hello world'
 
 == Python
 
+*工欲善其事，必先利其器，* https://www.cnblogs.com/liangmingshen/p/9297381.html[PyCharm快捷键大全]
+
 link:./pages/python-basic-knowledge.adoc[1.Python入门了解]
 
 link:./pages/list-and-tuple-Detailed-use-cases.adoc[2.Python基础]
