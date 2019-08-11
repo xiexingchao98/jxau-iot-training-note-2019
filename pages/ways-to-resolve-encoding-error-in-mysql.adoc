@@ -51,3 +51,8 @@ net start mysql
 *插入中文数据发生错误*
 
 创建表时指定 `utf8` 编码即可。
+
+[source, mysql]
+----
+create table user (name varchar(20)) default charset=utf8;
+----

@@ -31,11 +31,21 @@ link:./pages/can-not-push-local-repo-to-remote-repo.adoc[无法推送本地仓�
 
 link:./pages/update-fork-repository-on-github.adoc[在Github上更新Fork仓库]
 
-git拉取代码报错：error:RPC failed; curl 56 OpenSSL SSL_read: SSL_ERROR_SYSCALL, errno 10054
-解决办法：博客地址：https://blog.csdn.net/qq_37161280/article/details/98758760
+*Git 拉取代码报错*
 
-克隆报错：error: RPC failed; curl 18 transfer closed with outstanding read data remaining fatal: the remote en
-解决办法：https://blog.csdn.net/qq_37161280/article/details/98757267
+  error:RPC failed; curl 56 OpenSSL SSL_read: SSL_ERROR_SYSCALL, errno 10054
+
+解决办法
+
+https://blog.csdn.net/qq_37161280/article/details/98758760
+
+*克隆报错*
+
+  error: RPC failed; curl 18 transfer closed with outstanding read data remaining fatal: the remote en
+
+解决办法
+
+https://blog.csdn.net/qq_37161280/article/details/98757267
 
 
 == Node.js
@@ -55,56 +65,24 @@ npm config set registry https://registry.npm.taobao.org
 
 ==== Thinkjs
 
-*数据库安全*
-
-为了防止数据库密码暴露在公开场合，可以将密码设置为环境变量，然后在 `adapter.js` 中使用 `process.env['variable_name']` 调用系统环境变量。
-
-*踩坑*
-
-* 返回数据库数据时，切记使用 `await` 将异步数据库操作改成同步操作，否则无法获取预期的返回值。
-
-[source, js]
-----
-findAction() {
-  let user = this.model().where({ id: id }).find()
-  this.json(user)
-}
-// response => {}
-
-async findAction() {
-  let user = await this.model().where({ id: id }).find()
-  this.json(user)
-}
-// response => { user: { ... } }
-----
-
-* 更新 `json` 字段的值时，应当传入字符串形式的值。
-
-[source, js]
-----
-// wrong
-model.where( { id： 1 } ).update('{ key: value }')
-
-// true
-model.where( { id： 1 } ).update({ key: value })
-----
-
-===== 代码示例
+===== Example
 
 link:./example/file.js[文件上传与下载]
+
+https://github.com/xiexingchao98/g3-nodejs-lite
 
 == 微信小程序
 
 === UI组件库
 
-. https://github.com/Tencent/weui-wxss[weui]
-. https://github.com/youzan/vant[vant]
+* https://github.com/Tencent/weui-wxss[weui]
+* https://github.com/youzan/vant[vant]
 
 === 基础
 
 link:./pages/communication-between-miniprogram-and-thinkjs.adoc[Thinkjs与小程序的通信]
 
-=== 实例
+=== Example
 
 link:./pages/use-vant.adoc[使用Vant]
 
@@ -125,122 +103,23 @@ link:./pages/ways-to-resolve-encoding-error-in-mysql.adoc[解决MySQL中编码�
 
 其它
 
-[source, mysql]
-----
-create table user (name varchar(20)) default charset=utf8;
-----
-
 link:./pages/quick-refrence-of-mysql-command.adoc[MySQL常见命令快速参考]
 
 === MongoDB
 
-MongoDB在centos上的安装：
+==== 安装
 
-===== 官网的安装教程：https://docs.mongodb.com/manual/tutorial/install-mongodb-on-amazon/
+*CentOS*
 
-===== 自己百度然后摸索的教程：
+官方文档
 
-1.进入到 /usr/local目录：
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/
 
-`cd  /usr/local`
+[.line-through]#https://docs.mongodb.com/manual/tutorial/install-mongodb-on-amazon/#
 
-2.安装必要的插件
+经验总结
 
-`[root@iZuf local]# cd /usr/local`
-
-`[root@iZu local]# yum -y install gcc make gcc-c++ openssl-devel wget`
-
-`[root@iZuf local]# yum install net-tools`
-
-3.下载与 CentOS 系统匹配的mongodb-linux-x86_64-rhel70-3.2.4.tgz 文件 下载很慢
-
-wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-3.2.4.tgz
-
-4.解压缩 mongodb-linux-x86_64-rhel70-3.2.4.tgz 文件：
-
-`tar -zxvf mongodb-linux-x86_64-rhel70-3.2.4.tgz`
-
-5. 重命名 mongodb-linux-x86_64-rhel70-3.2.4 文件为 mongodb3.2.4：
-
-`mv mongodb-linux-x86_64-rhel70-3.2.4 mongodb3.2.4`
-
-6.创建 mongodb 目录
-
-`mkdir -p mongodb`
-
-7.将 mongodb3.2.4 文件从 /usr/local 目录中移动到 /usr/local/mongodb 目录中：
-
-`[root@iZufZ local]# mv mongodb3.2.4 mongodb``
-
-8.进入到 /usr/local/mongodb/mongodb3.2.4 目录中：
-
-`cd mongodb/mongodb3.2.4`
-
-9.在 /usr/local/mongodb/mongodb3.2.4/bin/ 目录中创建一个存放日志的目录：
-
-`mkdir -p data/test/logs`
-
-10. 在 /usr/local/mongodb/mongodb3.2.4/bin/ 目录中创建一个存放数据文件的目录：
-
-`mkdir -p data/test/db`
-
-11.进入 bin 目录中：
-
-`[root@iZuf65sjh5jkbz8k7n6iz2Z mongodb3.2.4]# cd bin`
-
-12. 创建配置文件 mongodb.conf：
-
-`vim mongodb.conf`
-
-13.在 mongodb.conf 写入如下内容：
-----
-# idae - MongoDB config start - 2016-05-02
-
-# 设置数据文件的存放目录
-dbpath = /usr/local/mongodb/mongodb3.2.4/bin/data/test/db
-
-# 设置日志文件的存放目录及其日志文件名
-logpath = /usr/local/mongodb/mongodb3.2.4/bin/data/test/logs/mongodb.log
-
-# 设置端口号（默认的端口号是 27017）
-port = 27017
-
-# 设置为以守护进程的方式运行，即在后台运行
-fork = true
-
-# nohttpinterface = true
-nohttpinterface = true
-# idae - MongoDB config end - 2016-05-02
-先按 ESC ，然后按英文状态下的“:wq”保存并退出；
-参数解释：
---dbpath 数据库路径(数据文件)
---logpath 日志文件路径
---master 指定为主机器
---slave 指定为从机器
---source 指定主机器的IP地址
---pologSize 指定日志文件大小不超过64M.因为resync是非常操作量大且耗时，最好通过设置一个足够大的oplogSize来避免resync(默认的 oplog大小是空闲磁盘大小的5%)。
---logappend 日志文件末尾添加，即使用追加的方式写日志
---journal 启用日志
---port 启用端口号
---fork 在后台运行
---only 指定只复制哪一个数据库
---slavedelay 指从复制检测的时间间隔
---auth 是否需要验证权限登录(用户名和密码)
---syncdelay 数据写入硬盘的时间（秒），0是不等待，直接写入
---notablescan 不允许表扫描
---maxConns 最大的并发连接数，默认2000
---pidfilepath 指定进程文件，不指定则不产生进程文件
---bind_ip 绑定IP，绑定后只能绑定的IP访问服务
-----
-启动MongoDB：
-
-[root@iZuf65sjh5jkbz8k7n6iz2Z bin]# sudo /bin/mongo
-
-重新启动MongoDB数据：
-
-[root@iZuf65sjh5jkbz8k7n6iz2Z bin]# sudo service mongod start
-
-
+link:./pages/install-mongodb-on-centos-cx.adoc[在CentOS上安装MongoDB<@WhiteLie1>]
 
 == Web开发
 
@@ -252,15 +131,15 @@ https://developer.mozilla.org/zh-CN[Mozillia Developer Network]
 
 ==== 框架列表
 
-. BootStrap
-. Bulma
-. Spectre
+. https://getbootstrap.com/[BootStrap]
+. https://bulma.io/[Bulma]
+. https://picturepan2.github.io/spectre/[Spectre]
 
 === JavaScript
 
 ==== 框架列表
 
-. Vue.js
+. https://cn.vuejs.org/[Vue.js]
 
 link:./pages/be-careful-when-using-strict-operator.adoc[使用严格运算符时请小心]
 

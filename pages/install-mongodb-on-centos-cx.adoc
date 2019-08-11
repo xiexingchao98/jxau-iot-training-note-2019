@@ -1,0 +1,97 @@
+= 在CentOS上安装MongoDB
+
+By https://github.com/WhiteLie1[@WhiteLie1]
+
+【步骤】
+
+1.进入到 `/usr/local` 目录：
+
+`cd  /usr/local`
+
+2.安装必要的插件
+
+  yum -y install gcc make gcc-c++ openssl-devel wget
+  yum install net-tools
+
+3.下载 mongodb 安装文件（下载速度可能会很慢）
+
+  wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-3.2.4.tgz
+
+4.解压文件
+
+  tar -zxvf mongodb-linux-x86_64-rhel70-3.2.4.tgz
+
+5.重命名（可选）
+
+  mv mongodb-linux-x86_64-rhel70-3.2.4 mongodb3.2.4
+
+6.创建安装目录
+
+  mkdir -p mongodb
+
+7.将安装文件移动到待安装目录：
+
+  mv mongodb3.2.4 mongodb
+
+8.进入 mongodb 目录
+
+  cd mongodb/mongodb3.2.4
+
+9.在 `bin` 目录中创建日志目录和数据存放目录
+
+  cd bin
+  mkdir -p data/test/logs
+  mkdir -p data/test/db
+
+10.创建配置文件
+
+  vim mongodb.conf
+
+13.在配置文件中写入以下内容
+----
+# idae - MongoDB config start - 2016-05-02
+
+# 设置数据文件的存放目录
+dbpath = /usr/local/mongodb/mongodb3.2.4/bin/data/test/db
+
+# 设置日志文件的存放目录及其日志文件名
+logpath = /usr/local/mongodb/mongodb3.2.4/bin/data/test/logs/mongodb.log
+
+# 设置端口号（默认的端口号是 27017）
+port = 27017
+
+# 设置为以守护进程的方式运行，即在后台运行
+fork = true
+
+# nohttpinterface = true
+nohttpinterface = true
+# idae - MongoDB config end - 2016-05-02
+先按 ESC ，然后按英文状态下的“:wq”保存并退出；
+参数解释：
+--dbpath 数据库路径(数据文件)
+--logpath 日志文件路径
+--master 指定为主机器
+--slave 指定为从机器
+--source 指定主机器的IP地址
+--pologSize 指定日志文件大小不超过64M.因为resync是非常操作量大且耗时，最好通过设置一个足够大的oplogSize来避免resync(默认的 oplog大小是空闲磁盘大小的5%)。
+--logappend 日志文件末尾添加，即使用追加的方式写日志
+--journal 启用日志
+--port 启用端口号
+--fork 在后台运行
+--only 指定只复制哪一个数据库
+--slavedelay 指从复制检测的时间间隔
+--auth 是否需要验证权限登录(用户名和密码)
+--syncdelay 数据写入硬盘的时间（秒），0是不等待，直接写入
+--notablescan 不允许表扫描
+--maxConns 最大的并发连接数，默认2000
+--pidfilepath 指定进程文件，不指定则不产生进程文件
+--bind_ip 绑定IP，绑定后只能绑定的IP访问服务
+----
+
+14.启动 MongoDB
+
+  sudo /bin/mongo
+
+15.重新启动 MongoDB
+
+  sudo service mongod start
