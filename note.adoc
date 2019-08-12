@@ -15,7 +15,7 @@ link:./pages/install-vmwaretools-on-ubuntu.adoc[Ubuntu安装VMwareTools]
 
 == Nginx
 
-=== 应用实例
+=== Example
 
 link:./pages/build-live-service-with-nginx.adoc[搭建直播服务]
 
@@ -50,7 +50,7 @@ https://blog.csdn.net/qq_37161280/article/details/98757267
 
 == Node.js
 
-=== 更换npm下载源
+=== 更换下载源
 
 `npm install` 时巨慢无比，这时可以把下载源换成淘宝的。
 
@@ -61,11 +61,9 @@ npm config set registry https://registry.npm.taobao.org
 
 淘宝NPM源官网 -  https://npm.taobao.org
 
-=== 框架
+=== Thinkjs
 
-==== Thinkjs
-
-===== Example
+==== Example
 
 link:./example/file.js[文件上传与下载]
 
@@ -73,19 +71,16 @@ https://github.com/xiexingchao98/g3-nodejs-lite
 
 == 微信小程序
 
-=== UI组件库
+=== 组件库
 
 * https://github.com/Tencent/weui-wxss[weui]
 * https://github.com/youzan/vant[vant]
 
-=== 基础
+=== Example
 
 link:./pages/communication-between-miniprogram-and-thinkjs.adoc[Thinkjs与小程序的通信]
 
-=== Example
-
 link:./pages/use-vant.adoc[使用Vant]
-
 
 https://juejin.im/entry/5af1b16d6fb9a07aca7a20d3[小程序商城Demo（Thinkjs + MySQL）]
 
@@ -115,11 +110,120 @@ link:./pages/quick-refrence-of-mysql-command.adoc[MySQL常见命令快速参考]
 
 https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/
 
-[.line-through]#https://docs.mongodb.com/manual/tutorial/install-mongodb-on-amazon/#
-
 经验总结
 
 link:./pages/install-mongodb-on-centos-cx.adoc[在CentOS上安装MongoDB<@WhiteLie1>]
+
+==== 访问控制
+
+Mongo 默认不提供账户，安装完成后可以直接使用 `mongo shell` 连接至数据库。
+
+为了进行权限控制，首先创建一个管理员权限账户。
+
+[source, js]
+----
+  use admin
+  db.createUser(
+    {
+          user: "root",
+          pwd: "Passw0rd!",
+          roles: { "userAdminAnyDatabase", "readWriteAnyDatabase"}
+    }
+  )
+  exit    // 退出 mongo
+----
+
+*开启访问控制*
+
+编辑配置文件
+
+ vim /etc/mongod.conf
+
+添加或更改
+
+ security.authorization: enabled
+
+重启
+
+  systemctl restart mongod
+
+使用验证方式登录
+
+  mongo -u admin -p --authenticationDatabase=admin
+
+为指定应用创建数据库
+
+  use test
+  db.createUser(
+    {
+      user: "appUser",
+      pwd: "Passw0rd!" ,
+      roles: {
+        { role: "readWrite", db: "test"}
+      }
+    }
+  )
+
+[TIP]
+====
+`use` 用来切换数据库。如果切换到不存在的数据库，并且插入了数据，mongo 会自动创建这个数据库。
+====
+
+*参阅*
+
+https://docs.mongodb.com/manual/tutorial/enable-authentication/
+
+==== 数据验证
+
+Mongo 与 MySQL 之类的数据库不同，它默认不对字段进行约束，而且每个文档（每条记录）的字段可以彼此不同。
+
+这种灵活性可能会带来很大的便利性，但仍须在一定程度上对字段类型进行约束。
+
+*设置验证器*
+
+在创建集合（表）时，可以添加验证器对字段进行约束。
+
+[source, js]
+----
+db.createCollection("brands", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["name"],
+      properties: {
+        name: {
+          bsonType: "string",
+        }
+      }
+    }
+  }
+})
+----
+
+验证器类型为 `$jsonSchema`
+|===
+
+| 属性名 | 含义
+
+| bsonType | mongo 存储数据的类型
+| required | 必填字段
+| properties | 字段属性
+
+|===
+
+此时，如果插入数据中的 `name` 不为 `string` 类型，则插入失败。
+
+除此之外，在数据中可以添加任意字段，如果它们在 `properties` 中，那这些字段就会收到约束，否则无影响。
+
+*参阅*
+
+https://docs.mongodb.com/manual/core/schema-validation/
+https://docs.mongodb.com/manual/reference/operator/query/jsonSchema/index.html
+
+==== GUI工具
+
+* https://www.mongodb.com/download-center/compass?jmp=hero[MongoDB Compass]
+* https://www.cr173.com/soft/126934.html[Navicat]
 
 == Web开发
 
@@ -129,40 +233,27 @@ https://developer.mozilla.org/zh-CN[Mozillia Developer Network]
 
 === CSS
 
-==== 框架列表
+==== 框架
 
-. https://getbootstrap.com/[BootStrap]
-. https://bulma.io/[Bulma]
-. https://picturepan2.github.io/spectre/[Spectre]
+* https://getbootstrap.com/[BootStrap]
+* https://bulma.io/[Bulma]
+* https://picturepan2.github.io/spectre/[Spectre]
 
 === JavaScript
 
-==== 框架列表
+==== 框架
 
-. https://cn.vuejs.org/[Vue.js]
+* https://cn.vuejs.org/[Vue.js]
+
+键值的名称一致时，可简写
+
+  let user = { id }
+
+反引号（`）中可引用变量
+
+  `${var}`
 
 link:./pages/be-careful-when-using-strict-operator.adoc[使用严格运算符时请小心]
-
-[TIP]
-====
-键值的名称一致时，可简写。
-
-[source, js]
-----
-let userID = 1
-let data1 = { userID: userID }    // { userID: 1 }
-let data2 = { userID }    // 简写形式，效果与上面相同
-----
-
-反引号（`）中可引用变量。
-
-[source, js]
-----
-let str1 = 'world'
-let str2 = 'hello ' + `${str1}`    // result: 'hello world'
-----
-
-====
 
 === HTTP请求调试工具
 
