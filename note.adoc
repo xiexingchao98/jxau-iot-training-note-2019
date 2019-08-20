@@ -225,6 +225,10 @@ https://docs.mongodb.com/manual/reference/operator/query/jsonSchema/index.html
 * https://www.mongodb.com/download-center/compass?jmp=hero[MongoDB Compass]
 * https://www.cr173.com/soft/126934.html[Navicat]
 
+==== 分布式
+
+link:./pages/deploy-shard-cluster.adoc[分片集群部署]
+
 == Web开发
 
 推荐网站：

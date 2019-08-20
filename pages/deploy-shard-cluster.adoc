@@ -1,0 +1,141 @@
+= 分片集群部署
+
+配置信息预览
+|===
+| Server Name | Type | Port | Data Directory / Logs Path
+
+| configsvr_1 | configsvr | 27018 | C:\\data\\configdb\\configdb_1
+| configsvr_2 | configsvr | 27019 | C:\\data\\configdb\\configdb_2
+| configsvr_3 | configsvr | 27020 | C:\\data\\configdb\\configdb_3
+| shardsvr_1 | shardsvr | 27021 | C:\\data\\db\\db_1
+| shardsvr_2 | shardsvr | 27022 | C:\\data\\db\\db_2
+| shardsvr_3 | shardsvr | 27023 | C:\\data\\db\\db_3
+| mongos_1 | mongos | 27024 | C:\\data\\log\\mongos.log
+
+|===
+
+[NOTE]
+====
+启动前请创建好相关目录
+====
+
+启动Config Server 1
+
+....
+mongod --configsvr --replSet configReplSet --dbpath 'C:\\data\\configdb\\configdb_1' --port 27018
+....
+
+启动Config Server 2
+
+....
+mongod --configsvr --replSet configReplSet --dbpath 'C:\\data\\configdb\\configdb_2' --port 27019
+....
+
+启动Config Server 3
+
+....
+mongod --configsvr --replSet configReplSet --dbpath 'C:\\data\\configdb\\configdb_3' --port 27020
+....
+
+登录到任意一个 Config Server
+....
+mongo --host localhost --port 27018
+....
+
+初始化 Config Server ReplSet
+....
+rs.initiate( { _id: "configReplSet", configsvr: true, members: [ { _id: 0, host: "localhost:27018" }, { _id: 1, host: "localhost:27019" }, { _id: 2, host: "localhost:27020" } ] } )
+....
+
+启动 Shard Server 1
+
+....
+mongod --shardsvr --replSet shardReplSet  --dbpath 'C:\\data\\db\\db_1' --port 27021
+....
+
+启动 Shard Server 2
+
+....
+mongod --shardsvr --replSet shardReplSet  --dbpath 'C:\\data\\db\\db_2' --port 27022
+....
+
+启动 Shard Server 3
+
+....
+mongod --shardsvr --replSet shardReplSet  --dbpath 'C:\\data\\db\\db_3' --port 27023
+....
+
+登录到任意一个 Shard Server
+....
+mongo --host localhost --port 27021
+....
+
+初始化 Shard Server ReplSet
+....
+rs.initiate( { _id: "shardReplSet", members: [ { _id: 0, host: "localhost:27021" }, { _id: 1, host: "localhost:27022" }, { _id: 2, host: "localhost:27023" } ] } )
+....
+
+启动 Mongos
+....
+mongos --configdb configReplSet/localhost:27018,localhost:27019,localhost:27020 --port 27024 --logpath 'C:\\data\\log\\mongos.log' --logappend
+....
+
+配置 Monmgos ，为集群增加 Shard ReplSet
+....
+sh.addShard( "shardReplSet/localhost:27021,localhost:27022,localhost:27023" )
+....
+
+创建数据库，并为其开启分片
+....
+use test
+sh.enableSharding("test")
+....
+
+创建集合，并为其开启分片
+....
+db.createCollection("users")
+db.users.ensureIndex({"_id": "hashed"})
+sh.shardCollection("users")
+....
+
+查看数据库分片是否开启成功
+....
+use config
+db.databases.find()
+....
+
+插入测试数据
+....
+use test
+{
+  let data = []
+  for (let i = 0; i < 100000; ++i)
+    data.push({"uid": i})
+  db.users.insertMany(data)
+}
+....
+
+查看分片情况
+....
+db.users.getShardDistribution()
+....
+
+预期输出结果
+....
+mongos> db.users.getShardDistribution()
+
+Shard shardReplSet at shardReplSet/localhost:27021,localhost:27022,localhost:27023
+ data : 5MiB docs : 150010 chunks : 2
+ estimated data per chunk : 2.5MiB
+ estimated docs per chunk : 75005
+
+Totals
+ data : 5MiB docs : 150010 chunks : 2
+ Shard shardReplSet contains 100% data, 100% docs in cluster, avg obj size on shard : 35B
+....
+
+参阅
+
+https://docs.mongodb.com/v4.0/tutorial/deploy-shard-cluster/
+
+https://www.linode.com/docs/databases/mongodb/build-database-clusters-with-mongodb/
