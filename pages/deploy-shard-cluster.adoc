@@ -80,6 +80,11 @@ rs.initiate( { _id: "shardReplSet", members: [ { _id: 0, host: "localhost:27021"
 mongos --configdb configReplSet/localhost:27018,localhost:27019,localhost:27020 --port 27024 --logpath 'C:\\data\\log\\mongos.log' --logappend
 ....
 
+登录到 Mongos
+....
+mongo --host localhost --port 27024
+....
+
 配置 Monmgos ，为集群增加 Shard ReplSet
 ....
 sh.addShard( "shardReplSet/localhost:27021,localhost:27022,localhost:27023" )
@@ -95,7 +100,7 @@ sh.enableSharding("test")
 ....
 db.createCollection("users")
 db.users.ensureIndex({"_id": "hashed"})
-sh.shardCollection("users")
+sh.shardCollection("test.users", {"_id", "hashed"})
 ....
 
 查看数据库分片是否开启成功
