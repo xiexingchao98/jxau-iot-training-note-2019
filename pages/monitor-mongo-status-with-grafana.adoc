@@ -1,0 +1,104 @@
+:imagesdir: ../images
+
+
+= Grafana监控Mongo运行状态
+
+[NOTE]
+====
+请确保安装了 Docker
+
+参阅：link:.pages/install-docker.adoc[安装Docker]
+====
+
+假设 Mongo 已在服务端运行
+
+1. Grafana
+
+** 安装
+
+  docker pull grafana/grafana
+
+** 启动
+
+  docker run -p 3000:3000 --name grafana grafana/grafana
+
+2. MongoDB(已在服务端安装可略过)
+
+** 安装
+
+  docker pull mongo
+
+** 启动
++
+略
+
+** 配置
++
+如果开启了访问控制，请确保 `admin` 对 `local` 库具有读权限。
++
+否则，请关闭访问控制进行配置。
++
+详细信息请查看：
+https://github.com/percona/mongodb_exporter#flags
+
+3. Prometheus
+
+** 安装
+
+    docker pull prom/prometheus
+
+** 编辑配置文件
+
+  vim ~/prometheus.yml
+
+*** 配置文件内容
+
+  global:
+  scrape_interval:     15s
+  external_labels:
+    monitor: 'codelab-monitor'
+  scrape_configs:
+  - job_name: 'exporter'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['公网/内网IP:9104']    # 与 MongoDB Exporter 的 IP 地址、端口保持一致
+
+** 启动
+
+    docker run -p 9090:9090 --name prom -v ~/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+
+4. MongoDB Exporter
+
+** 安装
+
+  docker pull eses/mongodb_exporter
+
+** 启动
+
+  docker run -p 9104:9104 --name exporter eses/mongodb_exporter -mongodb.uri 'mongodb://用户名:密码@<公网或者内网IP>:<端口>/验证数据库'
+
+5. Grafana Web 面板配置
+
+** 添加 Prometheus 数据源
++
+填写 URL 时需包含 HTTP 或者 HTTPS，尾部记得填端口（9090）。
+
+** 导入 MongoDB Dashboard
++
+左侧导航条的顶部，找到加号按钮，点击 Import，编号填写 2583。
++
+然后，在底部 Promethues 中选择刚才添加的数据源
+
+6. 调整 Dashboard，使之现实数据
+
+** 编辑 Panel
++
+image::grafana-edit-panel.png[编辑Panel]
+
+** 选择对应指标类型
++
+image::grafana-choose-metric-type.png[选择对应指标类型]
+
+** 查看统计结果
++
+image::grafana-panel-result.png[Panel统计结果]

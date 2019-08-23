@@ -1,0 +1,31 @@
+= 安装Docker
+
+官方文档 - https://docs.docker.com/install/linux/docker-ce/centos
+
+阿里云镜像版安装文档 - https://yq.aliyun.com/articles/110806
+
+== 步骤
+
+1. 安装必要软件
+
+  sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+
+2. 添加 Docker 源（任选一个）
+
+  # 官方源
+  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  # 阿里云源
+  sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
+3. 安装 Docker 社区版
+
+  # 我也不知道 containerd.io 是干嘛的
+  sudo yum install docker-ce docker-ce-cli containerd.io
+
+4. 启动
+
+  systemctl start docker
+
+5. 查看命令帮助
+
+  docker --help
