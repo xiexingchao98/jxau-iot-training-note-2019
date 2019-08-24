@@ -53,11 +53,12 @@ https://github.com/percona/mongodb_exporter#flags
 
 *** 配置文件内容
 
-  global:
+global:
   scrape_interval:     15s
   external_labels:
     monitor: 'codelab-monitor'
-  scrape_configs:
+
+scrape_configs:
   - job_name: 'exporter'
     scrape_interval: 5s
     static_configs:
