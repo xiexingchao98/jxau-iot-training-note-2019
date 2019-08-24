@@ -23,3 +23,10 @@
 文档使用 `asciidoc` 风格编写，不过你并不需要了解它，你只需要把内容写下来即可（*just write it down*）。
 
 如果你感兴趣的话可以阅读官方文档 - https://asciidoctor.org/docs
+
+== 感谢
+
+* https://github.com/WhiteLie1[WhiteLie1]
+* https://github.com/xpcloud[xpcloud]
+* https://github.com/Eilia-XxD[Eilia-XxD]
+* https://github.com/LengFeng-1127[LengFeng-1127]
